@@ -1,0 +1,46 @@
+{
+  "_comment": "Reference shape for ~/.config/norml-wp-developer/projects/{slug}.json. The setup script writes this with real values. Never store secrets here — SSH passphrases live in ssh-agent + OS Keychain; GitHub PATs (if any) live in the OS secret store under norml-wp-dev-{slug}-github-pat. NOTE the split: this file is connection-only / per-machine. Per-project knowledge (CLAUDE.md, ci-cd.md, changelog, docs) lives at {theme_root}/.claude/, committed to git.",
+  "slug": "acme-marketing",
+  "theme_name": "Acme Theme",
+  "theme_root": "/Users/you/Local Sites/acme/app/public/wp-content/themes/acme-theme",
+  "mode": "inherited",
+  "_mode_options": ["sage", "inherited"],
+  "local": {
+    "tool": "wp-local",
+    "_tool_options": ["wp-local", "ddev", "lando", "valet", "manual"],
+    "url": "https://acme-marketing.local"
+  },
+  "production": {
+    "url": "https://acme.com",
+    "ssh_alias": "norml-wp-dev-acme-marketing",
+    "ssh_host": "ssh.acme.com",
+    "ssh_port": 22,
+    "ssh_user": "acme",
+    "ssh_key": "/Users/you/.ssh/norml-wp-dev-acme-marketing",
+    "wp_path": "/var/www/html",
+    "theme_path": "/var/www/html/wp-content/themes/acme-theme"
+  },
+  "staging": {
+    "url": "https://staging.acme.com",
+    "ssh_alias": "norml-wp-dev-acme-marketing-staging",
+    "ssh_host": "ssh.acme.com",
+    "ssh_port": 22,
+    "ssh_user": "acme",
+    "ssh_key": "/Users/you/.ssh/norml-wp-dev-acme-marketing",
+    "wp_path": "/var/www/staging",
+    "theme_path": "/var/www/staging/wp-content/themes/acme-theme"
+  },
+  "git": {
+    "provider": "github",
+    "_provider_options": ["github", "bitbucket", "gitlab"],
+    "remote_url": "git@github.com:acme/acme-theme.git"
+  },
+  "ci_cd": {
+    "pattern": "full-pipeline",
+    "_pattern_options": ["full-pipeline", "prod-direct-with-git", "prod-direct-no-ci"],
+    "backup_strategy": "host-automatic",
+    "_backup_strategy_options": ["host-automatic", "manual-before-deploy", "none-warned"]
+  },
+  "created_at": "2026-05-21T12:00:00Z",
+  "version": 1
+}
