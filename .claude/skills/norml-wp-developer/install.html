@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>norml-wp-developer — install guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#18181b; --ink-2:#3f3f46; --muted:#71717a; --faint:#a1a1aa;
+    --line:#e4e4e7; --line-2:#d4d4d8; --paper:#ffffff; --bg:#f4f4f5;
+    --lime:#c5f04b; --lime-deep:#aadb2e;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{
+    font-family:var(--sans); color:var(--ink); background:var(--bg);
+    line-height:1.5; font-feature-settings:"cv02","cv03","cv04","cv11";
+    padding:clamp(16px,4vw,56px) clamp(12px,4vw,32px); display:flex; justify-content:center;
+  }
+  .card{
+    width:100%; max-width:880px; background:var(--paper);
+    border:1px solid var(--line); border-radius:18px;
+    box-shadow:0 1px 2px rgba(24,24,27,.04),0 12px 40px -12px rgba(24,24,27,.10);
+    overflow:hidden; animation:rise .5s cubic-bezier(.2,.7,.2,1) both;
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.card{animation:none}}
+  .crumb{display:flex; align-items:center; gap:8px; padding:16px clamp(20px,4vw,40px) 0;
+    font:500 11.5px/1 var(--mono); letter-spacing:.02em; color:var(--faint); text-transform:uppercase}
+  .crumb b{color:var(--muted);font-weight:600}
+  header{padding:14px clamp(20px,4vw,40px) 26px; border-bottom:1px solid var(--line)}
+  .titlerow{display:flex; align-items:flex-start; justify-content:space-between; gap:16px}
+  h1{font:700 clamp(24px,4.4vw,36px)/1.05 var(--mono); letter-spacing:-.02em; word-break:break-word}
+  .ver{flex:none; display:inline-flex; align-items:center; gap:7px; font:600 12px/1 var(--mono);
+    color:var(--ink-2); background:var(--bg); border:1px solid var(--line); padding:7px 11px;
+    border-radius:999px; white-space:nowrap; margin-top:6px}
+  .ver .dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 3px rgba(197,240,75,.25)}
+  .pitch{margin-top:16px; font-size:clamp(15px,2.3vw,18px); line-height:1.45; color:var(--ink-2); max-width:62ch}
+  .pitch .mk{background:linear-gradient(transparent 58%, var(--lime) 58%, var(--lime) 92%, transparent 92%);
+    padding:0 1px; font-weight:600; color:var(--ink)}
+  .tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px}
+  .tag{font:500 11.5px/1 var(--mono); color:var(--muted); background:var(--bg); border:1px solid var(--line);
+    padding:6px 10px; border-radius:7px}
+  .tag b{color:var(--ink-2);font-weight:600}
+  section{padding:24px clamp(20px,4vw,40px)}
+  section + section{border-top:1px solid var(--line)}
+  .lbl{display:flex; align-items:center; gap:8px; margin-bottom:18px; font:600 11.5px/1 var(--mono);
+    letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+  .lbl::before{content:""; width:9px; height:9px; border-radius:2px; background:var(--lime); flex:none}
+  .prose{font-size:15px; line-height:1.6; color:var(--ink-2); max-width:64ch}
+  /* checklist (prerequisites / what's written) */
+  .checklist{display:flex; flex-direction:column; gap:11px}
+  .check{display:flex; gap:11px; font-size:14px; line-height:1.5; color:var(--ink-2); max-width:66ch}
+  .check::before{content:"✓"; color:var(--lime-deep); font:700 13px/1.5 var(--mono); flex:none}
+  .check b{color:var(--ink); font-weight:600}
+  /* numbered install steps */
+  .steps{display:flex; flex-direction:column; gap:22px}
+  .istep{display:flex; gap:15px; align-items:flex-start}
+  .istep .num{flex:none; width:30px; height:30px; border-radius:50%; background:var(--lime);
+    border:1px solid var(--lime-deep); color:var(--ink); font:700 13px/1 var(--mono);
+    display:grid; place-items:center}
+  .istep .body{flex:1; min-width:0}
+  .istep .h{font-weight:600; font-size:15px; color:var(--ink); margin-bottom:5px}
+  .istep .body p{font-size:14px; color:var(--ink-2); line-height:1.55; max-width:62ch}
+  .os{display:flex; align-items:center; gap:7px; margin:13px 0 6px; font:600 10.5px/1 var(--mono);
+    letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+  .os::before{content:""; width:7px; height:7px; border-radius:2px; background:var(--lime-deep); flex:none}
+  /* copy-pastable PROMPT block (what you say to Claude) */
+  .prompt{position:relative; background:#fbfdf4; border:1px solid var(--line);
+    border-left:3px solid var(--lime); border-radius:11px; padding:13px 15px 14px; margin:4px 0}
+  .prompt.big{padding:16px 18px 17px}
+  .plabel{display:flex; align-items:center; gap:7px; margin-bottom:9px; font:600 10px/1 var(--mono);
+    letter-spacing:.09em; text-transform:uppercase; color:#5a7a12}
+  .plabel::before{content:""; width:8px; height:8px; border-radius:2px; background:var(--lime-deep); flex:none}
+  .ptext{font-family:var(--sans); font-size:14px; line-height:1.62; color:var(--ink);
+    white-space:pre-wrap; max-width:66ch; padding-right:64px}
+  .prompt.big .ptext{font-size:14.5px}
+  /* copy-pastable CODE block (shell, for the manual path) */
+  .codewrap{position:relative; margin:0}
+  pre{background:var(--ink); color:#e4e4e7; border-radius:10px; padding:13px 56px 13px 15px; overflow-x:auto;
+    font:500 12.5px/1.65 var(--mono); margin:0; white-space:pre}
+  code{font-family:var(--mono); font-size:.9em; background:var(--bg); border:1px solid var(--line);
+    padding:1px 5px; border-radius:5px; color:var(--ink)}
+  /* the copy button (shared) */
+  .copybtn{position:absolute; top:10px; right:10px; font:600 11px/1 var(--mono); cursor:pointer;
+    padding:6px 10px; border-radius:7px; border:1px solid var(--lime-deep); background:var(--lime);
+    color:var(--ink); transition:background .15s, color .15s, border-color .15s}
+  .copybtn:hover{background:var(--lime-deep)}
+  .copybtn:active{transform:translateY(1px)}
+  .copybtn.ok{background:#dcfce7; border-color:#86efac; color:#166534}
+  .codewrap .copybtn{top:9px; right:9px; background:#27272a; border-color:#3f3f46; color:#e4e4e7}
+  .codewrap .copybtn:hover{background:#3f3f46}
+  .codewrap .copybtn.ok{background:#14532d; border-color:#22c55e; color:#bbf7d0}
+  /* command chips (start building) — click to copy */
+  .hint{font:500 12px/1 var(--mono); color:var(--faint); margin-bottom:12px}
+  .cmds{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+  @media(max-width:560px){.cmds{grid-template-columns:1fr}}
+  .cmd{position:relative; display:flex; align-items:center; gap:10px; padding:11px 13px; background:var(--bg);
+    border:1px solid var(--line); border-radius:9px; border-left:3px solid var(--lime); cursor:pointer; transition:background .12s}
+  .cmd:hover{background:#eef2e3}
+  .cmd .q{font:600 13px/1 var(--mono); color:var(--faint); flex:none}
+  .cmd .x{font:500 13.5px/1.3 var(--sans); color:var(--ink-2)}
+  .cmd.ok{border-color:var(--lime-deep); background:#f3fade}
+  .cmd.ok::after{content:"copied ✓"; position:absolute; right:11px; font:600 10.5px/1 var(--mono); color:#3f6212}
+  /* note box */
+  .note{display:flex; gap:12px; padding:15px 17px; background:var(--bg); border:1px solid var(--line);
+    border-left:3px solid var(--lime); border-radius:11px; font-size:14.5px; line-height:1.55; color:var(--ink-2); max-width:66ch}
+  .note.warn{border-left-color:#e0a106; background:#fffbeb; border-color:#fde68a}
+  .note b{color:var(--ink); font-weight:600}
+  /* troubleshooting table */
+  .tbl{width:100%; border-collapse:collapse; font-size:13.5px}
+  .tbl td{border-top:1px solid var(--line); padding:11px 12px; vertical-align:top; color:var(--ink-2); line-height:1.5}
+  .tbl tr:first-child td{border-top:0}
+  .tbl td:first-child{font-weight:600; color:var(--ink); width:40%}
+  .tbl code{font-size:.86em}
+  .sublede{font-size:14px; line-height:1.55; color:var(--muted); max-width:64ch; margin:-8px 0 16px}
+  .sublede b{color:var(--ink-2); font-weight:600}
+  footer{padding:16px clamp(20px,4vw,40px); background:var(--bg); border-top:1px solid var(--line);
+    display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; font:500 11.5px/1.5 var(--mono); color:var(--faint)}
+  footer a{color:var(--muted); text-decoration:none; border-bottom:1px solid var(--line-2)}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="crumb"><b>norml-wp-developer</b> · install guide · for humans</div>
+  <header>
+    <div class="titlerow">
+      <h1>install norml-wp-developer</h1>
+      <span class="ver"><span class="dot"></span>v1.1.0</span>
+    </div>
+    <p class="pitch"><span class="mk">You don't really install this by hand</span> — you paste a prompt and Claude Code installs it for you. macOS and Windows.</p>
+    <div class="tags">
+      <span class="tag"><b>For:</b> WordPress developers</span>
+      <span class="tag"><b>Platforms:</b> macOS 12+ · Windows 10+</span>
+      <span class="tag">driven by Claude Code</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="lbl">Before you start</div>
+    <p class="sublede">You'll need these in place. The setup step checks for them and tells you what's missing.</p>
+    <div class="checklist">
+      <div class="check"><span><b>Claude Code</b>, installed and signed in — <a href="https://claude.com/claude-code">claude.com/claude-code</a></span></div>
+      <div class="check"><span><b>Git</b>, installed and configured (<code>git config user.name</code> / <code>user.email</code>)</span></div>
+      <div class="check"><span><b>A local WordPress environment</b> — WP Local by default (<a href="https://localwp.com">localwp.com</a>); DDEV, Lando, Local Lightning, Valet+, MAMP also recognized. At least one must be running before you finish project setup.</span></div>
+      <div class="check"><span><b>SSH access to your production server</b> (host, port, username, key — or willingness to generate one). Managed hosts: usually under "SSH Keys" in the panel.</span></div>
+      <div class="check"><span><b>A remote Git repo</b> — GitHub by default (Bitbucket / GitLab supported). An empty repo, or push access to an existing one.</span></div>
+      <div class="check"><span><b>WP-CLI on the production server</b> — most managed hosts have it; otherwise <a href="https://wp-cli.org/#installing">wp-cli.org</a> or ask your host.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="lbl">Heads up</div>
+    <div class="note warn"><span><b>This skill does not make backups.</b> Every production write refuses to run without an explicit "I have a backup" acknowledgement. It assumes your host has automatic backups on, or that you take manual ones before destructive ops. If you lose data, no skill can recover it.</span></div>
+  </section>
+
+  <section>
+    <div class="lbl">Fastest — one paste</div>
+    <p class="prose" style="margin-bottom:14px">Unzip the package, open <b>Claude Code</b> with the extracted folder as its working directory, and paste this. Claude installs the skill and then walks you through your first project — no terminal needed.</p>
+    <div class="prompt big">
+      <div class="plabel">Paste into Claude Code (opened in the extracted folder)</div>
+      <div class="ptext">You're in the extracted norml-wp-developer package folder. Install this Claude skill for me, then help me set up my first project.
+
+1. Copy the folder ".claude/skills/norml-wp-developer" from here into "~/.claude/skills/" (create ~/.claude/skills/ if it doesn't exist).
+2. If I'm on macOS, make its scripts executable: chmod +x ~/.claude/skills/norml-wp-developer/scripts/*.sh  (skip this on Windows).
+3. Confirm the norml-wp-developer skill is installed and you can see it.
+
+Then walk me through onboarding for my first WordPress project: ask me for the theme folder, detect my local WP, initialize Git and wire the remote, collect SSH access through the native OS dialog (never ask me to type a secret in chat), pick a CI/CD pattern with me, and scaffold the .claude/ folder in the repo.</div>
+      <button class="copybtn" type="button">Copy</button>
+    </div>
+    <div class="note" style="margin-top:16px"><span>Restart Claude Code once after this so it loads the new skill, then you're ready to build. Prefer to go step by step (or run it in a terminal)? Keep reading.</span></div>
+  </section>
+
+  <section>
+    <div class="lbl">Step by step</div>
+    <div class="steps">
+      <div class="istep">
+        <div class="num">1</div>
+        <div class="body">
+          <div class="h">Extract the package</div>
+          <p>If you received this as a zip, unzip it anywhere convenient (Desktop or Downloads), then open Claude Code with that folder as its working directory.</p>
+        </div>
+      </div>
+      <div class="istep">
+        <div class="num">2</div>
+        <div class="body">
+          <div class="h">Install the skill</div>
+          <p>Paste this prompt — Claude copies the skill into place and verifies it:</p>
+          <div class="prompt">
+            <div class="plabel">Paste into Claude Code</div>
+            <div class="ptext">Copy the folder ".claude/skills/norml-wp-developer" from this package into "~/.claude/skills/" (create the folder if needed). If I'm on macOS, then run: chmod +x ~/.claude/skills/norml-wp-developer/scripts/*.sh. Afterward, confirm the norml-wp-developer skill is installed and visible.</div>
+            <button class="copybtn" type="button">Copy</button>
+          </div>
+          <p style="margin-top:13px">Or run it yourself in a terminal:</p>
+          <div class="os">macOS</div>
+          <div class="codewrap">
+<pre>mkdir -p ~/.claude/skills
+cp -R "/path/to/extracted/norml-wp-developer/.claude/skills/norml-wp-developer" ~/.claude/skills/
+chmod +x ~/.claude/skills/norml-wp-developer/scripts/*.sh</pre>
+            <button class="copybtn" type="button">Copy</button>
+          </div>
+          <div class="os">Windows (PowerShell)</div>
+          <div class="codewrap">
+<pre>New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.claude\skills" | Out-Null
+Copy-Item -Recurse -Force "C:\path\to\extracted\norml-wp-developer\.claude\skills\norml-wp-developer" "$env:USERPROFILE\.claude\skills\"</pre>
+            <button class="copybtn" type="button">Copy</button>
+          </div>
+          <p style="margin-top:12px">Then restart Claude Code so it picks up the new skill. Confirm with <em>"List my available skills"</em> — you should see <code>norml-wp-developer</code>.</p>
+        </div>
+      </div>
+      <div class="istep">
+        <div class="num">3</div>
+        <div class="body">
+          <div class="h">Set up your first project</div>
+          <p>Navigate Claude Code to your theme folder, then paste:</p>
+          <div class="prompt">
+            <div class="plabel">Paste into Claude Code (in your theme folder)</div>
+            <div class="ptext">Set up this WordPress project for norml-wp-developer. Walk me through onboarding: detect my local WP environment, initialize Git and wire the remote, collect SSH access to production through the native OS dialog (no secrets in chat), pick a CI/CD pattern with me, and scaffold the .claude/ folder inside my theme repo. Optionally pull the production database down to local at the end.</div>
+            <button class="copybtn" type="button">Copy</button>
+          </div>
+          <p style="margin-top:13px">Prefer to drive the script directly?</p>
+          <div class="os">macOS</div>
+          <div class="codewrap">
+<pre>bash ~/.claude/skills/norml-wp-developer/scripts/setup-macos.sh</pre>
+            <button class="copybtn" type="button">Copy</button>
+          </div>
+          <div class="os">Windows</div>
+          <div class="codewrap">
+<pre>&amp; "$env:USERPROFILE\.claude\skills\norml-wp-developer\scripts\setup-windows.ps1"</pre>
+            <button class="copybtn" type="button">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:22px"><span><b>Repeat step 3 for every project.</b> Each gets its own <code>~/.config/norml-wp-developer/projects/{slug}.json</code> and its own <code>.claude/</code> folder in its theme repo. You can manage many projects from one machine — they share the SSH agent, not the config.</span></div>
+  </section>
+
+  <section>
+    <div class="lbl">Start building</div>
+    <p class="hint">Click any to copy, then paste into Claude Code.</p>
+    <div class="cmds">
+      <div class="cmd" data-copy><span class="q">&ldquo;</span><span class="x">add a hero block to this theme</span></div>
+      <div class="cmd" data-copy><span class="q">&ldquo;</span><span class="x">build a CPT archive for case studies</span></div>
+      <div class="cmd" data-copy><span class="q">&ldquo;</span><span class="x">pull the production database to my local</span></div>
+      <div class="cmd" data-copy><span class="q">&ldquo;</span><span class="x">ship this branch to staging</span></div>
+      <div class="cmd" data-copy><span class="q">&ldquo;</span><span class="x">promote staging to production</span></div>
+      <div class="cmd" data-copy><span class="q">&ldquo;</span><span class="x">what's the CI/CD pattern for this project?</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="lbl">Troubleshooting</div>
+    <table class="tbl">
+      <tr><td>Claude can't see the skill</td><td>Restart Claude Code. Confirm the folder is at <code>~/.claude/skills/norml-wp-developer/</code>.</td></tr>
+      <tr><td><code>Permission denied (publickey)</code> during setup</td><td>Your SSH public key isn't on the production server. Re-run setup — the script prints the public key for you to paste into your host's panel.</td></tr>
+      <tr><td><code>wp: command not found</code> on the remote</td><td>WP-CLI isn't on the server. Ask your host or install per <a href="https://wp-cli.org/#installing">wp-cli.org</a>.</td></tr>
+      <tr><td><code>Composer detected … platform_check.php</code></td><td>Server PHP is below what the theme's <code>composer.json</code> requires. Bump server PHP in the panel, or lower the theme's <code>require.php</code> floor.</td></tr>
+      <tr><td>Setup script won't run on Windows</td><td>Run <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code> in PowerShell first.</td></tr>
+      <tr><td>WP Local site not detected</td><td>Make sure the site is <b>running</b> (green status in WP Local). Detection looks for an active MySQL process matching <code>/Local Sites/</code>.</td></tr>
+      <tr><td><code>git push</code> rejected (no remote auth)</td><td>Configure GitHub auth. The setup script offers <code>gh auth login</code>, the easiest path.</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <div class="lbl">What's NOT installed</div>
+    <p class="sublede">For full transparency, the skill writes only these things on your machine:</p>
+    <div class="checklist">
+      <div class="check"><span>The skill folder at <code>~/.claude/skills/norml-wp-developer/</code></span></div>
+      <div class="check"><span>Per-project config at <code>~/.config/norml-wp-developer/projects/{slug}.json</code> (no secrets)</span></div>
+      <div class="check"><span>A per-project SSH alias in <code>~/.ssh/config</code> (host alias only — your key stays where it is)</span></div>
+      <div class="check"><span>One entry per project in macOS Keychain / Windows Credential Manager for the SSH passphrase (if any)</span></div>
+      <div class="check"><span>A <code>.claude/</code> folder inside each theme repo it initializes (in git; travels with the code)</span></div>
+    </div>
+    <div class="note" style="margin-top:20px"><span>It does <b>not</b> install system services, daemons, PowerShell modules, Python, or Node packages. It does <b>not</b> modify your WordPress install beyond <code>rsync</code>ing theme files and (optionally) running WP-CLI cache flushes after deploy. And it does <b>not</b> make backups for you.</span></div>
+  </section>
+
+  <section>
+    <div class="lbl">Updating later</div>
+    <div class="checklist">
+      <div class="check"><span>Re-extract the package and re-run step 2 (the copy) — it overwrites the old skill folder. (Or just paste the install prompt again.)</span></div>
+      <div class="check"><span>Your config in <code>~/.config/norml-wp-developer/</code> is <b>not</b> touched — you keep your project list, SSH aliases, and per-project knowledge.</span></div>
+      <div class="check"><span>The <code>.claude/</code> folder inside each theme repo is <b>not</b> touched — it lives in git and travels with the code.</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>norml-wp-developer · install guide</span>
+    <span>what it does → <a href="readme.html">readme.html</a> · text install → <a href="INSTALL.md">INSTALL.md</a> · run it → <a href="SKILL.md">SKILL.md</a></span>
+  </footer>
+</main>
+<script>
+  (function () {
+    function copyText(text, onDone) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(onDone, function () { fallback(text, onDone); });
+      } else { fallback(text, onDone); }
+    }
+    function fallback(text, onDone) {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed'; ta.style.top = '-1000px'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta); onDone();
+    }
+    // Copy buttons on prompt + code blocks
+    document.querySelectorAll('.copybtn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var wrap = btn.closest('.prompt, .codewrap');
+        if (!wrap) return;
+        var src = wrap.querySelector('.ptext, pre');
+        if (!src) return;
+        copyText(src.innerText.trim(), function () {
+          var prev = btn.textContent;
+          btn.textContent = 'Copied ✓'; btn.classList.add('ok');
+          setTimeout(function () { btn.textContent = prev; btn.classList.remove('ok'); }, 1500);
+        });
+      });
+    });
+    // Click-to-copy command chips
+    document.querySelectorAll('.cmd[data-copy]').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        var x = chip.querySelector('.x');
+        if (!x) return;
+        copyText(x.innerText.trim(), function () {
+          chip.classList.add('ok');
+          setTimeout(function () { chip.classList.remove('ok'); }, 1300);
+        });
+      });
+    });
+  })();
+</script>
+</body>
+</html>
