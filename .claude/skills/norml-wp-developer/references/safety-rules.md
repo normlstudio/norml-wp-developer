@@ -265,7 +265,7 @@ mid-flight):
 ## Cross-references
 
 - `references/git-workflow.md` — branch / commit / push / tag rules
-- `references/ci-cd-patterns.md` — what each pattern's deploy
+- `references/ci-cd/patterns.md` — what each pattern's deploy
   commands look like
 - `references/dev-conventions.md` — what gets committed vs not (some
   Stop-tier mistakes happen because secrets land in tracked files)
