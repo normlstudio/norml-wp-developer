@@ -1,0 +1,69 @@
+{
+  "skill": "norml-wp-developer",
+  "version": "1.1.0",
+  "repo": "norml-wp-developer",
+  "audience": "WordPress theme developers",
+  "actsOn": "theme code + staging/production deploys",
+  "badge": "local-first · SSH + Git + CI/CD",
+  "pitch": "Build WordPress themes locally and ship them to staging and production through Claude Code — Git-backed, SSH-deployed, with no credentials in chat.",
+  "pitchMark": "Build WordPress themes locally and ship them to staging and production",
+  "problem": [
+    "You're building a WordPress theme and you want the developer-friendly flow — work locally, commit, push, watch CI/CD deploy to staging, smoke test, promote to prod. But wiring that up by hand is half a day of yak-shaving: Git remote, GitHub auth, SSH keys, GitHub Actions YAML, local WP config. And maintaining it across a dozen client projects is its own tax.",
+    "This skill makes the per-project setup about 30 minutes, then turns the everyday workflow basically chat-driven: build a block, ship to staging, promote to prod. Every production write stops for an explicit backup acknowledgement — there's no autopilot over your live site.",
+    "After setup, each project carries its own committed `.claude/` folder, so the next session — you, a teammate, or Claude — starts with full context: the CI/CD pattern in play, the conventions to follow (Sage or inherited), and the recent changelog."
+  ],
+  "callout": {
+    "label": "Backups are on you",
+    "text": "This skill **does not make backups**. Every production write — rsync, `wp db import`, `wp search-replace` — refuses to run without an explicit **\"I have a backup\"** acknowledgement. It assumes your host has automatic backups on, or that you take manual ones before destructive ops. **If you lose data, no skill can recover it.**"
+  },
+  "capabilities": {
+    "label": "What it does",
+    "lede": "It works in two modes — a new **Sage** build, or an **inherited** non-Sage theme it respects rather than rewrites. Setup is ~30 min per project; everyday work is chat-driven.",
+    "items": [
+      { "name": "Scaffold a new Sage theme", "tag": "new projects", "ok": true, "desc": "Roots Sage + Acorn + Blade + Tailwind v4 + Vite + Alpine + ACF Pro, wired to Git and CI/CD." },
+      { "name": "Work inside an inherited theme", "tag": "non-Sage", "ok": true, "desc": "Respect the existing architecture; apply the core principles **without silently rewriting it**." },
+      { "name": "Build blocks, components & CPTs", "tag": "both modes", "ok": true, "desc": "ACF blocks with previews, section/component/partial separation, the 3-layer CSS model." },
+      { "name": "Ship to staging & production", "tag": "SSH + CI/CD", "ok": true, "desc": "Push to deploy via GitHub Actions, or rsync direct — smoke-tested, backup-gated." },
+      { "name": "Pull production down to local", "tag": "DB + uploads", "ok": true, "desc": "Copies the prod database and uploads to local with the URL search-replace done for you." },
+      { "name": "Carry project context in git", "tag": "per project", "ok": true, "desc": "A committed `.claude/` with CLAUDE.md, the CI/CD contract, and a rolling changelog travels with the code." }
+    ]
+  },
+  "flow": [
+    { "t": "Set up", "d": "~30 min/project: local WP, Git, SSH, CI/CD pattern, .claude/ scaffold." },
+    { "t": "Build", "d": "Edit locally to the Sage or inherited conventions — blocks, CPTs, sections." },
+    { "t": "Commit & push", "d": "Conventional Commit; CI/CD picks it up." },
+    { "t": "Stage", "d": "Deploys to staging; QA gate on the staging URL." },
+    { "t": "Promote", "d": "Tag a release → production deploy, gated by the backup prompt." },
+    { "t": "Log", "d": "Appends [DEPLOY-PROD] to the project changelog and closes out." }
+  ],
+  "commands": [
+    "set up this WordPress project",
+    "add a hero block with title, subtitle, and CTA fields",
+    "build a case-study CPT with an archive page",
+    "ship this to staging",
+    "promote staging to production",
+    "pull the production database to my local",
+    "what's the CI/CD pattern for this project?",
+    "rescan the architecture for this project"
+  ],
+  "limits": {
+    "label": "What it won't do",
+    "items": [
+      "**Make or restore backups** — every prod write gates on a backup you confirm; it never creates one.",
+      "**Manage content or ACF values** on a live site — that's the companion, `norml-wp-manager` (REST, no SSH).",
+      "**Introduce a new framework** on an inherited theme without asking — it matches what's already there.",
+      "**Fix a broken WordPress install** — corrupted database or core files go to your host.",
+      "**Security or penetration testing** — out of scope; use a dedicated tool."
+    ],
+    "note": "Local-first is the default. Direct-on-server edits are permitted but flagged **`[DIRECT-PROD]`** and logged, because the next deploy can overwrite them."
+  },
+  "graph": {
+    "center": "norml-wp-developer",
+    "edges": [
+      { "node": "norml-wp-manager", "dir": "out", "label": "content sibling" }
+    ]
+  },
+  "covers": "1.1.0",
+  "generated": "2026-06-22",
+  "hasHumanMd": true
+}

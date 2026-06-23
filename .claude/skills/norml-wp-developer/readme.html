@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>norml-wp-developer — skill guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#18181b; --ink-2:#3f3f46; --muted:#71717a; --faint:#a1a1aa;
+    --line:#e4e4e7; --line-2:#d4d4d8; --paper:#ffffff; --bg:#f4f4f5;
+    --lime:#c5f04b; --lime-deep:#aadb2e;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{
+    font-family:var(--sans); color:var(--ink); background:var(--bg);
+    line-height:1.5; font-feature-settings:"cv02","cv03","cv04","cv11";
+    padding:clamp(16px,4vw,56px) clamp(12px,4vw,32px); display:flex; justify-content:center;
+  }
+  .card{
+    width:100%; max-width:880px; background:var(--paper);
+    border:1px solid var(--line); border-radius:18px;
+    box-shadow:0 1px 2px rgba(24,24,27,.04),0 12px 40px -12px rgba(24,24,27,.10);
+    overflow:hidden; animation:rise .5s cubic-bezier(.2,.7,.2,1) both;
+  }
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.card{animation:none}}
+  .crumb{display:flex; align-items:center; gap:8px; padding:16px clamp(20px,4vw,40px) 0;
+    font:500 11.5px/1 var(--mono); letter-spacing:.02em; color:var(--faint); text-transform:uppercase}
+  .crumb b{color:var(--muted);font-weight:600}
+  header{padding:14px clamp(20px,4vw,40px) 26px; border-bottom:1px solid var(--line)}
+  .titlerow{display:flex; align-items:flex-start; justify-content:space-between; gap:16px}
+  h1{font:700 clamp(26px,4.6vw,38px)/1.05 var(--mono); letter-spacing:-.02em; word-break:break-word}
+  .ver{flex:none; display:inline-flex; align-items:center; gap:7px; font:600 12px/1 var(--mono);
+    color:var(--ink-2); background:var(--bg); border:1px solid var(--line); padding:7px 11px;
+    border-radius:999px; white-space:nowrap; margin-top:6px}
+  .ver .dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 3px rgba(197,240,75,.25)}
+  .pitch{margin-top:16px; font-size:clamp(16px,2.4vw,19px); line-height:1.45; color:var(--ink-2); max-width:62ch}
+  .pitch .mk{background:linear-gradient(transparent 58%, var(--lime) 58%, var(--lime) 92%, transparent 92%);
+    padding:0 1px; font-weight:600; color:var(--ink)}
+  .tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px}
+  .tag{font:500 11.5px/1 var(--mono); color:var(--muted); background:var(--bg); border:1px solid var(--line);
+    padding:6px 10px; border-radius:7px}
+  .tag b{color:var(--ink-2);font-weight:600}
+  section{padding:24px clamp(20px,4vw,40px)}
+  section + section{border-top:1px solid var(--line)}
+  .lbl{display:flex; align-items:center; gap:8px; margin-bottom:16px; font:600 11.5px/1 var(--mono);
+    letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+  .lbl::before{content:""; width:9px; height:9px; border-radius:2px; background:var(--lime); flex:none}
+  .prose{font-size:15.5px; line-height:1.6; color:var(--ink-2); max-width:64ch}
+  .prose + .prose{margin-top:12px}
+  .flow{display:flex; flex-wrap:wrap; align-items:stretch; gap:8px}
+  .step{flex:1 1 120px; min-width:120px; background:var(--paper); border:1px solid var(--line-2);
+    border-radius:11px; padding:13px 14px; position:relative}
+  .step .n{font:600 10.5px/1 var(--mono); color:var(--faint); letter-spacing:.05em}
+  .step .t{margin-top:7px; font-weight:600; font-size:14px; color:var(--ink)}
+  .step .d{margin-top:3px; font-size:12px; color:var(--muted); line-height:1.4}
+  .step:not(:last-child)::after{content:"→"; position:absolute; right:-13px; top:50%;
+    transform:translateY(-50%); font:500 14px/1 var(--mono); color:var(--line-2); z-index:2}
+  @media(max-width:560px){.step{flex:1 1 100%}
+    .step:not(:last-child)::after{content:"↓"; right:50%; top:auto; bottom:-13px; transform:translateX(50%)}}
+  .cmds{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+  @media(max-width:560px){.cmds{grid-template-columns:1fr}}
+  .cmd{display:flex; align-items:center; gap:10px; padding:11px 13px; background:var(--bg);
+    border:1px solid var(--line); border-radius:9px; border-left:3px solid var(--lime)}
+  .cmd .q{font:600 13px/1 var(--mono); color:var(--faint); flex:none}
+  .cmd .x{font:500 13.5px/1.3 var(--sans); color:var(--ink-2)}
+  .sublede{font-size:14px; line-height:1.55; color:var(--muted); max-width:64ch; margin:-6px 0 16px}
+  .sublede b{color:var(--ink-2); font-weight:600}
+  .note{display:flex; gap:12px; padding:15px 17px; background:var(--bg); border:1px solid var(--line);
+    border-left:3px solid var(--lime); border-radius:11px; font-size:14.5px; line-height:1.55; color:var(--ink-2); max-width:64ch}
+  .note b{color:var(--ink); font-weight:600}
+  .caps{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+  @media(max-width:560px){.caps{grid-template-columns:1fr}}
+  .cap{background:var(--paper); border:1px solid var(--line-2); border-radius:11px; padding:13px 14px}
+  .cap .ch{display:flex; align-items:center; justify-content:space-between; gap:8px}
+  .cap .ct{font-weight:600; font-size:14px; color:var(--ink)}
+  .cap .cd{margin-top:5px; font-size:12.5px; line-height:1.5; color:var(--muted)}
+  .pill{font:600 9.5px/1 var(--mono); letter-spacing:.04em; padding:4px 7px; border-radius:6px;
+    white-space:nowrap; text-transform:uppercase; flex:none}
+  .pill.ok{color:#3f6212; background:rgba(197,240,75,.32); border:1px solid var(--lime-deep)}
+  .pill.dep{color:var(--muted); background:var(--bg); border:1px solid var(--line-2)}
+  .limits{display:flex; flex-direction:column; gap:10px}
+  .limit{display:flex; gap:11px; font-size:14px; line-height:1.5; color:var(--ink-2); max-width:66ch}
+  .limit::before{content:"×"; color:var(--faint); font:600 13px/1.45 var(--mono); flex:none}
+  .limit b{color:var(--ink); font-weight:600}
+  .graph-wrap{border:1px solid var(--line); border-radius:14px;
+    background:radial-gradient(var(--line) 1px, transparent 1px) 0 0/22px 22px, var(--paper); padding:6px}
+  svg{display:block; width:100%; height:auto}
+  .legend{display:flex; flex-wrap:wrap; gap:14px 20px; margin-top:14px; font:500 12px/1 var(--mono); color:var(--muted)}
+  .legend span{display:inline-flex; align-items:center; gap:7px}
+  .legend i{width:18px; height:0; border-top:2px solid var(--line-2); display:inline-block}
+  .legend i.in{border-top-color:var(--lime-deep)}
+  footer{padding:16px clamp(20px,4vw,40px); background:var(--bg); border-top:1px solid var(--line);
+    display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; font:500 11.5px/1.5 var(--mono); color:var(--faint)}
+  footer a{color:var(--muted); text-decoration:none; border-bottom:1px solid var(--line-2)}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="crumb"><b>norml-wp-developer</b> · skill guide · for humans</div>
+  <header>
+    <div class="titlerow">
+      <h1>norml-wp-developer</h1>
+      <span class="ver"><span class="dot"></span>v1.1.0</span>
+    </div>
+    <p class="pitch"><span class="mk">Build WordPress themes locally and ship them to staging and production</span> through Claude Code — Git-backed, SSH-deployed, with no credentials in chat.</p>
+    <div class="tags"><span class="tag"><b>For:</b> WordPress theme developers</span><span class="tag"><b>Acts on:</b> theme code + staging/production deploys</span><span class="tag">local-first · SSH + Git + CI/CD</span></div>
+  </header>
+  <section><div class="lbl">The problem</div><p class="prose">You're building a WordPress theme and you want the developer-friendly flow — work locally, commit, push, watch CI/CD deploy to staging, smoke test, promote to prod. But wiring that up by hand is half a day of yak-shaving: Git remote, GitHub auth, SSH keys, GitHub Actions YAML, local WP config. And maintaining it across a dozen client projects is its own tax.</p><p class="prose">This skill makes the per-project setup about 30 minutes, then turns the everyday workflow basically chat-driven: build a block, ship to staging, promote to prod. Every production write stops for an explicit backup acknowledgement — there's no autopilot over your live site.</p><p class="prose">After setup, each project carries its own committed `.claude/` folder, so the next session — you, a teammate, or Claude — starts with full context: the CI/CD pattern in play, the conventions to follow (Sage or inherited), and the recent changelog.</p></section>
+  <section><div class="lbl">Backups are on you</div><div class="note"><span>This skill <b>does not make backups</b>. Every production write — rsync, `wp db import`, `wp search-replace` — refuses to run without an explicit <b>&quot;I have a backup&quot;</b> acknowledgement. It assumes your host has automatic backups on, or that you take manual ones before destructive ops. <b>If you lose data, no skill can recover it.</b></span></div></section>
+  <section><div class="lbl">What it does</div><p class="sublede">It works in two modes — a new <b>Sage</b> build, or an <b>inherited</b> non-Sage theme it respects rather than rewrites. Setup is ~30 min per project; everyday work is chat-driven.</p><div class="caps"><div class="cap"><div class="ch"><span class="ct">Scaffold a new Sage theme</span><span class="pill ok">new projects</span></div><div class="cd">Roots Sage + Acorn + Blade + Tailwind v4 + Vite + Alpine + ACF Pro, wired to Git and CI/CD.</div></div><div class="cap"><div class="ch"><span class="ct">Work inside an inherited theme</span><span class="pill ok">non-Sage</span></div><div class="cd">Respect the existing architecture; apply the core principles <b>without silently rewriting it</b>.</div></div><div class="cap"><div class="ch"><span class="ct">Build blocks, components &amp; CPTs</span><span class="pill ok">both modes</span></div><div class="cd">ACF blocks with previews, section/component/partial separation, the 3-layer CSS model.</div></div><div class="cap"><div class="ch"><span class="ct">Ship to staging &amp; production</span><span class="pill ok">SSH + CI/CD</span></div><div class="cd">Push to deploy via GitHub Actions, or rsync direct — smoke-tested, backup-gated.</div></div><div class="cap"><div class="ch"><span class="ct">Pull production down to local</span><span class="pill ok">DB + uploads</span></div><div class="cd">Copies the prod database and uploads to local with the URL search-replace done for you.</div></div><div class="cap"><div class="ch"><span class="ct">Carry project context in git</span><span class="pill ok">per project</span></div><div class="cd">A committed `.claude/` with CLAUDE.md, the CI/CD contract, and a rolling changelog travels with the code.</div></div></div></section>
+  <section><div class="lbl">How it flows</div><div class="flow"><div class="step"><div class="n">01</div><div class="t">Set up</div><div class="d">~30 min/project: local WP, Git, SSH, CI/CD pattern, .claude/ scaffold.</div></div><div class="step"><div class="n">02</div><div class="t">Build</div><div class="d">Edit locally to the Sage or inherited conventions — blocks, CPTs, sections.</div></div><div class="step"><div class="n">03</div><div class="t">Commit &amp; push</div><div class="d">Conventional Commit; CI/CD picks it up.</div></div><div class="step"><div class="n">04</div><div class="t">Stage</div><div class="d">Deploys to staging; QA gate on the staging URL.</div></div><div class="step"><div class="n">05</div><div class="t">Promote</div><div class="d">Tag a release → production deploy, gated by the backup prompt.</div></div><div class="step"><div class="n">06</div><div class="t">Log</div><div class="d">Appends [DEPLOY-PROD] to the project changelog and closes out.</div></div></div></section>
+  <section><div class="lbl">Say this to Claude</div><div class="cmds"><div class="cmd"><span class="q">&ldquo;</span><span class="x">set up this WordPress project</span></div><div class="cmd"><span class="q">&ldquo;</span><span class="x">add a hero block with title, subtitle, and CTA fields</span></div><div class="cmd"><span class="q">&ldquo;</span><span class="x">build a case-study CPT with an archive page</span></div><div class="cmd"><span class="q">&ldquo;</span><span class="x">ship this to staging</span></div><div class="cmd"><span class="q">&ldquo;</span><span class="x">promote staging to production</span></div><div class="cmd"><span class="q">&ldquo;</span><span class="x">pull the production database to my local</span></div><div class="cmd"><span class="q">&ldquo;</span><span class="x">what's the CI/CD pattern for this project?</span></div><div class="cmd"><span class="q">&ldquo;</span><span class="x">rescan the architecture for this project</span></div></div></section>
+  <section><div class="lbl">What it won't do</div><div class="limits"><div class="limit"><span><b>Make or restore backups</b> — every prod write gates on a backup you confirm; it never creates one.</span></div><div class="limit"><span><b>Manage content or ACF values</b> on a live site — that's the companion, `norml-wp-manager` (REST, no SSH).</span></div><div class="limit"><span><b>Introduce a new framework</b> on an inherited theme without asking — it matches what's already there.</span></div><div class="limit"><span><b>Fix a broken WordPress install</b> — corrupted database or core files go to your host.</span></div><div class="limit"><span><b>Security or penetration testing</b> — out of scope; use a dedicated tool.</span></div></div><p class="sublede" style="margin:16px 0 0">Local-first is the default. Direct-on-server edits are permitted but flagged <b>`[DIRECT-PROD]`</b> and logged, because the next deploy can overwrite them.</p></section>
+  <section>
+    <div class="lbl">Where it sits</div>
+    <div class="graph-wrap">
+      <svg viewBox="0 0 860 380" role="img" aria-label="norml-wp-developer and the skills it connects to">
+        <defs>
+          <marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 z" fill="#a1a1aa"></path></marker>
+          <marker id="arrIn" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 z" fill="#aadb2e"></path></marker>
+        </defs>
+        <line x1="543.8" y1="190.0" x2="645.4" y2="190.0" stroke="#d4d4d8" stroke-width="2" marker-end="url(#arr)"></line>
+        <g font-family="JetBrains Mono, monospace" font-size="11.5" font-weight="500">
+          <g><rect x="534.1" y="180.0" width="121" height="20" rx="5" fill="#ffffff"></rect><text x="594.6" y="194.0" text-anchor="middle" fill="#52525b">content sibling</text></g>
+        </g>
+        <g font-family="JetBrains Mono, monospace" font-size="13.5" font-weight="500" fill="#3f3f46">
+          <g><rect x="650.4" y="171.0" width="159.2" height="38" rx="9" fill="#ffffff" stroke="#d4d4d8"></rect><text x="730.0" y="194.7" text-anchor="middle">norml-wp-manager</text></g>
+        </g>
+        <g>
+      <rect x="321.3" y="166.0" width="217.5" height="48" rx="11" fill="#18181b" stroke="#aadb2e" stroke-width="2"></rect>
+      <text x="430" y="186" text-anchor="middle" font-size="14.5" font-weight="700" fill="#ffffff">norml-wp-developer</text>
+      <text x="430" y="203" text-anchor="middle" font-size="10.5" font-weight="500" fill="#c5f04b">● you are here</text>
+    </g>
+      </svg>
+    </div>
+    <div class="legend"><span><i></i> this skill hands off to</span></div>
+  </section>
+  <footer>
+    <span>Covers SKILL.md v1.1.0 · generated 2026-06-22</span>
+    <span>deep reference → <a href="readme.md">readme.md</a> · run it → <a href="SKILL.md">SKILL.md</a></span>
+  </footer>
+</main>
+</body>
+</html>

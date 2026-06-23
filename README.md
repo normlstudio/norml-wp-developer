@@ -57,7 +57,7 @@ norml-wp-developer."** Claude collects details, pops native OS dialogs for SSH
 passphrases, scaffolds `.claude/` inside your theme repo, and optionally pulls
 the production database to local.
 
-Full step-by-step (including Windows): **[`INSTALL.md`](.claude/skills/norml-wp-developer/INSTALL.md)**.
+Full step-by-step (including Windows): **[`INSTALL.md`](.claude/skills/norml-wp-developer/INSTALL.md)** (or the visual [`install.html`](.claude/skills/norml-wp-developer/install.html)).
 
 ## How your credentials are handled
 
@@ -69,9 +69,9 @@ Full step-by-step (including Windows): **[`INSTALL.md`](.claude/skills/norml-wp-
 
 ## Documentation
 
-- **[Plain-language guide](.claude/skills/norml-wp-developer/human.md)** — what it is and how to use it
-- **[Install guide](.claude/skills/norml-wp-developer/INSTALL.md)** — full setup, troubleshooting, "what's NOT installed"
-- **[Changelog](.claude/skills/norml-wp-developer/changelog.md)** — skill version history (currently v1.0.0)
+- **[Guide](.claude/skills/norml-wp-developer/readme.md)** — what it is and how to use it. Visual one-pager: [`readme.html`](.claude/skills/norml-wp-developer/readme.html)
+- **[Install guide](.claude/skills/norml-wp-developer/INSTALL.md)** — full setup, troubleshooting, "what's NOT installed". Visual: [`install.html`](.claude/skills/norml-wp-developer/install.html)
+- **[Changelog](.claude/skills/norml-wp-developer/changelog.md)** — skill version history (currently v1.1.0)
 
 ## License
 
