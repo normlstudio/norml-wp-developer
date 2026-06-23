@@ -1,5 +1,76 @@
 # changelog
 
+## [1.1.0] — Jun 22, 2026 — Max Tymoshyn
+
+Depth expansion of the reference layer. **No behavior change** to setup,
+develop, or deploy — the skill now carries the full architecture + CI/CD
+knowledge inline instead of compressing it into two single files. All
+ported from Norml's internal dev skills and genericized for any
+WordPress developer (zero Norml-ecosystem dependencies, no private repo
+references, no brand-locked class prefixes).
+
+**New `references/conventions/` folder** — the deep build conventions the
+old single `dev-conventions.md` only summarized:
+
+- `sage-stack.md` — the Sage + Acorn + Blade + Tailwind v4 + Vite +
+  Alpine + ACF Pro foundation (what Sage ships, Acorn boot, Blade↔WP
+  hierarchy, the Vite pipeline, build + post-deploy sequence).
+- `component-system.md` — section / component / partial anatomy, the
+  core component catalog, the Alpine.js integration pattern, layout.
+- `css-architecture.md` — the 3-layer CSS model (tokens → shared
+  components → per-block layout) for **both** Sage (Tailwind v4
+  `@theme`/`@layer`) and vanilla themes; the forbidden per-page-stylesheet
+  rule; the audit-first rule + pre-flight checklist.
+- `acf-blocks.md` — ACF block registration (Sage `view()` and vanilla
+  `get_template_part()` paths), custom block category, block previews
+  (live `example` + static-screenshot fallback), ACF JSON sync.
+- `inherited-projects.md` — working inside a non-Sage / handed-over
+  theme: respect-existing decision flow, may/must-not-introduce-silently,
+  the phased-refactor approach.
+- `README.md` — folder index + read order by mode.
+
+`dev-conventions.md` is now a slim **router** into `conventions/` plus
+the genuinely-global rules (Conventional Commits, don't-commit
+artifacts/secrets, ACF JSON sync caveat).
+
+**New `references/ci-cd/` folder** — replaces the single
+`ci-cd-patterns.md`:
+
+- `patterns.md` — the three deploy patterns (relocated; database +
+  backup depth delegated to the strategy files below).
+- `database-strategies.md` — four content/DB strategies (`single-env`,
+  `prod-is-source-of-truth`, `selective-sync`, `full-sync`), the `wp`
+  commands, and the rules that stop you clobbering live data.
+- `backup-strategies.md` — four backup provider types (managed host,
+  shared host, VPS-with-script incl. the nightly backup script,
+  cloud-custom), verify + restore runbooks, mapped onto the
+  `host-automatic` / `manual-before-deploy` / `none-warned` tiers.
+- `README.md` — folder index.
+
+**New `references/qa-gates.md`** — the pre-merge / pre-deploy /
+post-deploy QA checkpoints, adapted to all three patterns (staging-based
+for `full-pipeline`, local-based pre-deploy for the prod-direct patterns;
+post-deploy always on the production URL). Smoke test + Core Web Vitals
+checks are inline manual checklists — no external skill dependencies.
+
+**SKILL.md** — bumped to 1.1.0; the knowledge-baseline table now lists
+every new reference; the Develop phase routes to the `conventions/`
+files by mode; the Deploy phase points at `qa-gates.md` +
+`backup-strategies.md`.
+
+**Docs** — adopted the `readme.html` one-pager approach (the same one
+`norml-wp-manager` uses): replaced the old `human.md` with `readme.md`
+(deep guide) + `readme.data.json` + `readme.html` (the self-contained
+visual one-pager, rendered from the data). Added `install.html` — a
+visual, **prompt-first** install page (the first in the shared-skills
+set): every step leads with a copy-pastable prompt for Claude Code, plus
+a one-paste block that bootstraps the whole install + first-project
+setup, with copy-to-clipboard buttons (clipboard API + `file://`
+fallback).
+
+No script, template, onboarding, or credential-handling changes. Existing
+projects need nothing — the new references are purely additive.
+
 ## [1.0.0] — May 20, 2026 — Max Tymoshyn
 
 Initial release. The developer counterpart to `norml-wp-manager`.

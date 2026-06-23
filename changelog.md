@@ -4,7 +4,21 @@ This file tracks **repository-level** changes — README, packaging, license,
 distribution. The **skill's own** version history is the source of truth for
 skill behavior: see
 [`.claude/skills/norml-wp-developer/changelog.md`](.claude/skills/norml-wp-developer/changelog.md)
-(currently **v1.0.0**).
+(currently **v1.1.0**).
+
+## Jun 22, 2026
+
+- README + repo changelog updated to reflect skill **v1.1.0** — a
+  reference-layer depth expansion (new `references/conventions/` and
+  `references/ci-cd/` folders + `references/qa-gates.md`). Setup, develop,
+  and deploy behavior are unchanged; the new references are additive. See
+  the [skill changelog](.claude/skills/norml-wp-developer/changelog.md)
+  for the full breakdown.
+- Swapped the human-facing docs to the one-pager approach: removed
+  `human.md`; added `readme.md` + `readme.data.json` +
+  `readme.html` (visual one-pager) and a new `install.html` (visual,
+  prompt-first install page — copy-pastable Claude Code prompts with
+  copy buttons). README doc links updated to point at them.
 
 ## Jun 13, 2026
 
