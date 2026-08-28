@@ -1,5 +1,27 @@
 # changelog
 
+## [1.2.0] — Aug 28, 2026 — Max Tymoshyn
+
+Published the human-facing name **Norml WordPress Copilot Advanced** while keeping
+`norml-wp-developer` as the stable installed slug. Clarified the hard runtime
+boundary: Advanced runs only in Claude Code, Codex, or Gemini CLI and requires a
+local theme repo, GitHub, SSH, and remote WP-CLI.
+
+Added generated `capabilities.md`, `architecture.md`, and docs-index templates to
+the theme-local `.claude/` project layer. Added real macOS/Linux and Windows
+architecture scanners that combine local theme/Git evidence with fixed read-only
+WP-CLI commands over production SSH. The scan records runtime versions, site URLs,
+themes, plugins, update signals, post types, taxonomies, counts, menus, stack
+signals, GitHub/SSH/WP-CLI verification, and current blockers without reading
+secrets.
+
+Onboarding now requires a readable GitHub origin, verified production SSH, working
+WP-CLI in the configured WordPress root, and a successful first capability +
+architecture scan. Removed the old optional/TODO scrape contract and the unsupported
+multi-provider remote path from the public onboarding flow. Removed the obsolete
+standalone `install.html`; the maintained install source is `install.md`, while
+`readme.html` remains the visual one-pager.
+
 ## [1.1.0] — Jun 22, 2026 — Max Tymoshyn
 
 Depth expansion of the reference layer. **No behavior change** to setup,
@@ -122,7 +144,7 @@ onboarding.
 ```
 ~/.claude/skills/norml-wp-developer/
 ├── SKILL.md                    primary skill instructions
-├── INSTALL.md                  one-time install for the skill
+├── install.md                  one-time install for the skill
 ├── onboarding.md               per-project setup (~30 min)
 ├── human.md                    narrative overview for the recipient
 ├── changelog.md                (this file)
@@ -150,9 +172,9 @@ onboarding.
 │   └── deploy-to-prod.ps1
 └── templates/
     ├── config.template.json    Per-project config shape
-    ├── claude-md.template.md   .claude/CLAUDE.md scaffold
-    ├── ci-cd.template.md       .claude/ci-cd.md scaffold
-    ├── changelog-readme.template.md  Rolling-three-tier protocol
+    ├── claude-md-template.md   .claude/CLAUDE.md scaffold
+    ├── ci-cd-template.md       .claude/ci-cd.md scaffold
+    ├── changelog-readme-template.md  Rolling-three-tier protocol
     ├── github-workflow-staging.template.yml
     └── github-workflow-prod.template.yml
 ```

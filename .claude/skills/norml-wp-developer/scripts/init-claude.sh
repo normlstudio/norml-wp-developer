@@ -57,6 +57,15 @@ PROD_WP_PATH="$(parse .production.wp_path)"
 STAGING_SSH_ALIAS="$(parse .staging.ssh_alias)"
 STAGING_THEME_PATH="$(parse .staging.theme_path)"
 STAGING_WP_PATH="$(parse .staging.wp_path)"
+GENERATED_AT="$(date -u +%FT%TZ)"
+CLI_STATUS="Terminal filesystem + shell available"
+if [[ -d "$THEME_ROOT/.git" ]]; then LOCAL_REPO_STATUS="Git repository detected"; else LOCAL_REPO_STATUS="BLOCKED — Git repository missing"; fi
+GITHUB_STATUS="Pending first architecture scan"
+SSH_STATUS="Pending first architecture scan"
+WPCLI_STATUS="Pending first architecture scan"
+if [[ -n "$STAGING_URL" && "$STAGING_URL" != "null" ]]; then STAGING_STATUS="Configured at $STAGING_URL"; else STAGING_STATUS="Not configured"; fi
+BLOCKERS="- First architecture scan pending. GitHub, SSH, and remote WP-CLI have not been verified yet."
+ARCHITECTURE_SUMMARY="First architecture scan pending. Run the bundled scraper after GitHub and SSH are connected."
 
 if [[ -z "$THEME_ROOT" || ! -d "$THEME_ROOT" ]]; then
   echo "ERROR: theme_root '$THEME_ROOT' not on disk." >&2
@@ -90,6 +99,15 @@ render_template() {
     -e "s|{{STAGING_SSH_ALIAS}}|$STAGING_SSH_ALIAS|g" \
     -e "s|{{STAGING_THEME_PATH}}|$STAGING_THEME_PATH|g" \
     -e "s|{{STAGING_WP_PATH}}|$STAGING_WP_PATH|g" \
+    -e "s|{{GENERATED_AT}}|$GENERATED_AT|g" \
+    -e "s|{{CLI_STATUS}}|$CLI_STATUS|g" \
+    -e "s|{{LOCAL_REPO_STATUS}}|$LOCAL_REPO_STATUS|g" \
+    -e "s|{{GITHUB_STATUS}}|$GITHUB_STATUS|g" \
+    -e "s|{{SSH_STATUS}}|$SSH_STATUS|g" \
+    -e "s|{{WPCLI_STATUS}}|$WPCLI_STATUS|g" \
+    -e "s|{{STAGING_STATUS}}|$STAGING_STATUS|g" \
+    -e "s|{{BLOCKERS}}|$BLOCKERS|g" \
+    -e "s|{{ARCHITECTURE_SUMMARY}}|$ARCHITECTURE_SUMMARY|g" \
     -e "s|{{TODAY}}|$(date '+%Y-%m-%d')|g" \
     "$tpl" > "$out"
   echo "  wrote $out"
@@ -97,21 +115,39 @@ render_template() {
 
 # CLAUDE.md
 if [[ ! -f .claude/CLAUDE.md ]]; then
-  render_template "$TEMPLATES_DIR/claude-md.template.md" ".claude/CLAUDE.md"
+  render_template "$TEMPLATES_DIR/claude-md-template.md" ".claude/CLAUDE.md"
 else
   echo "  (.claude/CLAUDE.md already exists — leaving alone)"
 fi
 
 # ci-cd.md
 if [[ ! -f .claude/ci-cd.md ]]; then
-  render_template "$TEMPLATES_DIR/ci-cd.template.md" ".claude/ci-cd.md"
+  render_template "$TEMPLATES_DIR/ci-cd-template.md" ".claude/ci-cd.md"
 else
   echo "  (.claude/ci-cd.md already exists — leaving alone)"
 fi
 
+# Generated capability + architecture entry points. The first scan overwrites
+# these pending-state files with verified evidence.
+if [[ ! -f .claude/capabilities.md ]]; then
+  render_template "$TEMPLATES_DIR/capabilities-template.md" ".claude/capabilities.md"
+else
+  echo "  (.claude/capabilities.md already exists — leaving alone)"
+fi
+if [[ ! -f .claude/architecture.md ]]; then
+  render_template "$TEMPLATES_DIR/architecture-template.md" ".claude/architecture.md"
+else
+  echo "  (.claude/architecture.md already exists — leaving alone)"
+fi
+if [[ ! -f .claude/docs/README.md ]]; then
+  render_template "$TEMPLATES_DIR/docs-readme-template.md" ".claude/docs/README.md"
+else
+  echo "  (.claude/docs/README.md already exists — leaving alone)"
+fi
+
 # changelog/README.md
 if [[ ! -f .claude/changelog/README.md ]]; then
-  render_template "$TEMPLATES_DIR/changelog-readme.template.md" ".claude/changelog/README.md"
+  render_template "$TEMPLATES_DIR/changelog-readme-template.md" ".claude/changelog/README.md"
 else
   echo "  (.claude/changelog/README.md already exists — leaving alone)"
 fi

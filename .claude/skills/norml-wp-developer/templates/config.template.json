@@ -32,7 +32,7 @@
   },
   "git": {
     "provider": "github",
-    "_provider_options": ["github", "bitbucket", "gitlab"],
+    "_provider_options": ["github"],
     "remote_url": "git@github.com:acme/acme-theme.git"
   },
   "ci_cd": {

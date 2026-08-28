@@ -3,8 +3,8 @@
 #
 # Orchestrates the full onboarding flow described in onboarding.md:
 # project slug + URLs, local env detection, git init + remote, SSH
-# credentials, CI/CD pattern selection, .claude/ scaffold, optional
-# first scrape.
+# credentials, CI/CD pattern selection, .claude/ scaffold, and required
+# first capability + architecture scan.
 #
 # Run from inside the theme folder (the folder containing style.css
 # with the Theme Name header and functions.php).
@@ -39,18 +39,17 @@ confirm() {
 
 # ---- Banner --------------------------------------------------------------
 
-bold "norml-wp-developer — per-project setup (macOS)"
+bold "Norml WordPress Copilot Advanced — per-project setup (macOS)"
 echo
-echo "This walks through a one-time ~30-minute setup for one WordPress"
-echo "project. It:"
+echo "This walks through the one-time setup for one WordPress project. It:"
 info "1. Captures project basics (slug, URL, mode)"
 info "2. Detects your local WP environment"
-info "3. Initializes git + wires a remote (GitHub by default)"
+info "3. Initializes git + verifies a GitHub remote"
 info "4. Captures SSH details for production (and optionally staging)"
 info "5. Captures any SSH passphrase via macOS dialog -> Keychain"
 info "6. Lets you pick a CI/CD pattern (full pipeline / prod-direct / no-CI)"
 info "7. Scaffolds .claude/ inside this theme repo"
-info "8. (Optional) runs the first architecture scrape over SSH"
+info "8. Verifies GitHub + SSH + WP-CLI and writes capabilities.md + architecture docs"
 echo
 echo "Run me from inside the theme folder (the folder with style.css)."
 echo
@@ -205,20 +204,30 @@ if [[ -d "$THEME_ROOT/.git" ]]; then
   if [[ -n "$EXISTING_REMOTE" ]]; then
     GIT_REMOTE_URL="$EXISTING_REMOTE"
     info "Existing remote: $GIT_REMOTE_URL"
-    if echo "$GIT_REMOTE_URL" | grep -q bitbucket; then
-      GIT_PROVIDER="bitbucket"
-    elif echo "$GIT_REMOTE_URL" | grep -q gitlab; then
-      GIT_PROVIDER="gitlab"
+    if [[ "$GIT_REMOTE_URL" != *github.com* ]]; then
+      err "Norml WordPress Copilot Advanced requires a GitHub origin."
+      err "Current origin: $GIT_REMOTE_URL"
+      exit 1
     fi
   else
-    GIT_PROVIDER="$(ask "Git provider (github/bitbucket/gitlab)" "github")"
-    GIT_REMOTE_URL="$(ask "Remote URL (or leave blank to set later)")"
-    if [[ -n "$GIT_REMOTE_URL" ]]; then
-      git -C "$THEME_ROOT" remote add origin "$GIT_REMOTE_URL" 2>/dev/null || \
-        git -C "$THEME_ROOT" remote set-url origin "$GIT_REMOTE_URL"
-      info "Configured origin → $GIT_REMOTE_URL"
+    GIT_REMOTE_URL="$(ask "GitHub remote URL")"
+    if [[ -z "$GIT_REMOTE_URL" || "$GIT_REMOTE_URL" != *github.com* ]]; then
+      err "A github.com remote URL is required."
+      exit 1
     fi
+    git -C "$THEME_ROOT" remote add origin "$GIT_REMOTE_URL" 2>/dev/null || \
+      git -C "$THEME_ROOT" remote set-url origin "$GIT_REMOTE_URL"
+    info "Configured origin → $GIT_REMOTE_URL"
   fi
+  if ! git -C "$THEME_ROOT" ls-remote origin >/dev/null 2>&1; then
+    err "GitHub origin is configured but cannot be read."
+    err "Authenticate with GitHub (for example, gh auth login or your SSH key), then re-run setup."
+    exit 1
+  fi
+  info "Verified read-only GitHub access."
+else
+  err "A local Git repository is required. Initialize Git, then re-run setup."
+  exit 1
 fi
 
 # ---- SSH details — production --------------------------------------------
@@ -416,10 +425,16 @@ bash "$SCRIPT_DIR/init-claude.sh" "$SLUG"
 
 echo
 bold "Testing SSH..."
-bash "$SCRIPT_DIR/test-ssh.sh" "$SLUG" production || warn "Production SSH test failed — see error above."
+bash "$SCRIPT_DIR/test-ssh.sh" "$SLUG" production
 if [[ "$STAGING_CONFIGURED" == "true" ]]; then
-  bash "$SCRIPT_DIR/test-ssh.sh" "$SLUG" staging || warn "Staging SSH test failed."
+  bash "$SCRIPT_DIR/test-ssh.sh" "$SLUG" staging
 fi
+
+# ---- Required first capability + architecture scan ----------------------
+
+echo
+bold "Analyzing WordPress + theme architecture (read-only)..."
+bash "$SCRIPT_DIR/scrape-architecture.sh" "$SLUG"
 
 # ---- Done ----------------------------------------------------------------
 
@@ -434,7 +449,8 @@ info "SSH alias:       $SSH_ALIAS"
 [[ "$STAGING_CONFIGURED" == "true" ]] && info "Staging alias:   $STAGING_SSH_ALIAS"
 echo
 echo "Next steps:"
-info "  • Review the scaffolded .claude/ folder and commit it to git."
+info "  • Read .claude/capabilities.md and .claude/architecture.md."
+info "  • Review the scaffolded .claude/ folder and commit it to GitHub."
 info "  • If you picked full-pipeline, configure the GitHub Actions secrets"
 info "    listed in .claude/ci-cd.md."
 info "  • Ask Claude: 'pull production database to my local' (optional)."

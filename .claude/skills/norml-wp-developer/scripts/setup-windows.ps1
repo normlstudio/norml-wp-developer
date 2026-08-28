@@ -40,7 +40,7 @@ function Confirm($prompt) {
   return ($v -match '^[Yy]')
 }
 
-Write-Bold "norml-wp-developer -- per-project setup (Windows)"
+Write-Bold "Norml WordPress Copilot Advanced -- per-project setup (Windows)"
 Write-Host ""
 Write-Host "This walks through the one-time per-project setup."
 Write-Host "Run me from inside the theme folder (folder with style.css)."
@@ -149,17 +149,28 @@ if (Test-Path (Join-Path $ThemeRoot ".git")) {
   if ($existing) {
     $GitRemoteUrl = $existing
     Write-Info "Existing remote: $GitRemoteUrl"
-    if ($GitRemoteUrl -match 'bitbucket') { $GitProvider = 'bitbucket' }
-    elseif ($GitRemoteUrl -match 'gitlab') { $GitProvider = 'gitlab' }
-  } else {
-    $GitProvider = Ask "Git provider (github/bitbucket/gitlab)" "github"
-    $GitRemoteUrl = Ask "Remote URL (leave blank to set later)"
-    if ($GitRemoteUrl) {
-      git -C $ThemeRoot remote add origin $GitRemoteUrl 2>$null
-      if ($LASTEXITCODE -ne 0) { git -C $ThemeRoot remote set-url origin $GitRemoteUrl | Out-Null }
-      Write-Info "Configured origin -> $GitRemoteUrl"
+    if ($GitRemoteUrl -notmatch 'github\.com') {
+      Write-Err "Norml WordPress Copilot Advanced requires a GitHub origin. Current origin: $GitRemoteUrl"
+      exit 1
     }
+  } else {
+    $GitRemoteUrl = Ask "GitHub remote URL"
+    if (-not $GitRemoteUrl -or $GitRemoteUrl -notmatch 'github\.com') {
+      Write-Err 'A github.com remote URL is required.'; exit 1
+    }
+    git -C $ThemeRoot remote add origin $GitRemoteUrl 2>$null
+    if ($LASTEXITCODE -ne 0) { git -C $ThemeRoot remote set-url origin $GitRemoteUrl | Out-Null }
+    Write-Info "Configured origin -> $GitRemoteUrl"
   }
+  git -C $ThemeRoot ls-remote origin 2>$null | Out-Null
+  if ($LASTEXITCODE -ne 0) {
+    Write-Err 'GitHub origin is configured but cannot be read. Authenticate with GitHub, then re-run setup.'
+    exit 1
+  }
+  Write-Info 'Verified read-only GitHub access.'
+} else {
+  Write-Err 'A local Git repository is required. Initialize Git, then re-run setup.'
+  exit 1
 }
 
 # ---- SSH details ---------------------------------------------------------
@@ -336,6 +347,14 @@ Write-Bold "Scaffolding .claude/ inside the theme repo..."
 Write-Host ""
 Write-Bold "Testing SSH..."
 & "$ScriptDir\test-ssh.ps1" $Slug production
+if ($LASTEXITCODE -ne 0) { throw 'Production SSH verification failed.' }
+
+# ---- Required first capability + architecture scan ----------------------
+
+Write-Host ""
+Write-Bold "Analyzing WordPress + theme architecture (read-only)..."
+& "$ScriptDir\scrape-architecture.ps1" $Slug
+if ($LASTEXITCODE -ne 0) { throw 'Capability + architecture scan failed.' }
 
 # ---- Done ---------------------------------------------------------------
 
@@ -349,6 +368,7 @@ Write-Info "Backup strategy:  $Backup"
 Write-Info "SSH alias:        $SshAlias"
 Write-Host ""
 Write-Host "Next steps:"
-Write-Info "  - Review .claude/ and commit it: git add .claude .github .gitignore"
+Write-Info "  - Read .claude/capabilities.md and .claude/architecture.md."
+Write-Info "  - Review .claude/ and commit it to GitHub."
 Write-Info "  - For deploys + sync, run from WSL (or install rsync)."
 Write-Info "  - Start building: ask Claude 'add a hero block to this theme'."

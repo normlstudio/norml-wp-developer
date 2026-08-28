@@ -1,14 +1,16 @@
 ---
 name: norml-wp-developer
-version: 1.1.0
+version: 1.2.0
 requires_onboarding: true
 description: >
-  Develop WordPress themes locally and deploy to staging + production
-  via SSH + Git + GitHub Actions. WP Local is the default local env
-  (DDEV / Lando / Valet recognized too). Per-project setup is ~30 min
-  one-time (local WP, Git repo, GitHub remote, SSH credentials, CI/CD
-  pattern, .claude/ scaffold in the theme repo); everyday workflow is
-  fast — edit locally, commit, push, CI/CD ships to staging, smoke
+  Norml WordPress Copilot Advanced: the CLI-only WordPress development
+  skill for Claude Code, Codex, and Gemini CLI. Develop themes locally
+  and deploy through SSH + Git + GitHub Actions. WP Local is the default
+  local environment (DDEV / Lando / Valet recognized too). Per-project
+  onboarding connects GitHub and SSH, verifies remote WP-CLI, chooses the
+  CI/CD pattern, scaffolds .claude/ inside the theme repo, generates
+  capabilities.md, and records a five-file architecture snapshot. The
+  everyday workflow is edit locally, commit, push, stage, smoke
   test, promote to prod. **Does NOT make backups.** Every production
   write gates on a backup acknowledgement. Direct-on-server work is
   permitted but flagged and logged. Local-first is the default. Use
@@ -23,7 +25,14 @@ metadata:
   author: "Norml Studio"
 ---
 
-# norml-wp-developer
+# Norml WordPress Copilot Advanced
+
+Installed skill: `norml-wp-developer`.
+
+> **CLI only.** Run this skill in Claude Code, Codex, or Gemini CLI with
+> filesystem and terminal access. It is not a Claude Desktop / Cowork upload
+> skill. Desktop users should use Norml WordPress Copilot (`norml-wp-manager`),
+> which operates through the WordPress REST API.
 
 > **Requires onboarding.** Before this skill can do anything, the user must
 > run `onboarding.md` once per project on their machine. If
@@ -102,7 +111,7 @@ site. Typical asks:
 Every interaction with this skill falls into one of three phases. Each
 phase has its own rules + safety posture.
 
-### 1. Setup (one-time per project, ~30 minutes)
+### 1. Setup (one-time per project)
 
 Done once per project. Outputs:
 
@@ -113,13 +122,13 @@ Done once per project. Outputs:
 - Local WordPress environment detected (WP Local default; DDEV / Lando /
   Valet / Local Lightning recognized as alternates).
 - Git repo initialized in the theme folder, first commit made.
-- Remote configured (GitHub default; Bitbucket / GitLab supported).
+- GitHub remote configured and read-only connectivity verified.
 - `.claude/` scaffolded inside the theme repo with `CLAUDE.md`,
-  `ci-cd.md`, rolling changelog, and an empty `docs/` for the
-  architecture scrape.
+  `capabilities.md`, `architecture.md`, `ci-cd.md`, rolling changelog,
+  and generated architecture docs.
 - CI/CD pattern chosen + `.github/workflows/` (or
   `.bitbucket-pipelines.yml`) scaffolded.
-- Optional first-time architecture scrape via `wp-cli` over SSH.
+- Required first-time read-only architecture scrape via WP-CLI over SSH.
 
 See `references/wp-local-setup.md` for the local environment details and
 `onboarding.md` for the step-by-step.
@@ -184,21 +193,30 @@ restore detail behind the acknowledgement.
      init-claude.ps1) to scaffold it. Don't proceed with dev work
      against an un-initialized repo.
 
-4. **Read the project changelog** at
+4. **Read `.claude/capabilities.md` and `.claude/architecture.md`.**
+   - `capabilities.md` is the live operating contract for GitHub, SSH,
+     WP-CLI, local development, staging, and production.
+   - `architecture.md` is the index into the latest generated site and theme
+     snapshot under `.claude/docs/`.
+   - If either is missing or still says the first scan is pending, run
+     `scripts/scrape-architecture.sh {slug}` (or the PowerShell mirror) before
+     development.
+
+5. **Read the project changelog** at
    `{theme_root}/.claude/changelog/daily.md` (or `changelog.md` if the
    project skipped the rolling-three-tier setup). Surface the most
    recent entries — they tell you what was just done.
 
-5. **Identify the project mode** from `.claude/CLAUDE.md`:
+6. **Identify the project mode** from `.claude/CLAUDE.md`:
    - `mode: sage` → New / Norml-authored. Apply Sage conventions.
    - `mode: inherited` → Respect the existing theme. Apply
      framework-agnostic principles.
 
-6. **Resolve the SSH alias** to the production server from the project
+7. **Resolve the SSH alias** to the production server from the project
    JSON. Confirm the alias exists in `~/.ssh/config` (the setup script
    writes it; if it's missing, re-run setup).
 
-7. **Identify the deploy pattern** from `.claude/ci-cd.md`:
+8. **Identify the deploy pattern** from `.claude/ci-cd.md`:
    - `full-pipeline` — Git push → CI/CD → staging → manual promote → prod
    - `prod-direct-with-git` — Git push → server pulls from Git → prod
    - `prod-direct-no-ci` — rsync from local → prod (no Git push step)
@@ -216,13 +234,15 @@ the repo, so it travels with the code).
 ```
 {theme_root}/.claude/
 ├── CLAUDE.md                 # Project overview, mode (sage/inherited), pointers
+├── capabilities.md           # Generated operating contract for this project
+├── architecture.md           # Generated architecture summary + docs index
 ├── ci-cd.md                  # Per-project deploy contract (pattern, envs, hooks)
 ├── changelog/
 │   ├── README.md             # The rolling-three-tier protocol
 │   ├── daily.md              # Today's raw entries
 │   ├── weekly.md             # Compressed week
 │   └── changelog.md          # Long-term history
-├── docs/                     # 5-file architecture scrape (optional but recommended)
+├── docs/                     # 5-file read-only architecture scrape
 │   ├── 01-infrastructure.md
 │   ├── 02-application.md
 │   ├── 03-theme-architecture.md
@@ -293,12 +313,13 @@ true` on ACF field groups"), update the relevant section of
 `CLAUDE.md`. This file is the durable answer to "how do we work on
 this project."
 
-### `.claude/docs/` — architecture scrape (rescan only)
+### `.claude/capabilities.md` + architecture docs — rescan only
 
-The 5-file architecture scrape is generated by the
-`scripts/scrape-architecture.sh` flow over SSH+WP-CLI. It's a snapshot,
-overwritten on rescan. Anything that should survive a rescan goes in
-`CLAUDE.md` or `daily.md`, never edited by hand into `docs/`.
+The visible capability contract, architecture index, and 5-file snapshot are
+generated by `scripts/scrape-architecture.sh` (or `.ps1`) from local theme files,
+Git/GitHub state, and read-only WP-CLI commands over SSH. They are overwritten on
+rescan. Anything that should survive a rescan goes in `CLAUDE.md` or `daily.md`,
+never hand-edited into generated files.
 
 ## Safety classification — every operation buckets
 
@@ -378,6 +399,8 @@ recovery.
 | `references/safety-rules.md` | At session start. The full Safe / Confirm / Confirm+backup classification with examples. |
 | `references/wp-local-setup.md` | During onboarding, or if the local environment is unclear. WP Local default, DDEV / Lando / Valet / Local Lightning as alternates. |
 | `{theme_root}/.claude/CLAUDE.md` | At session start. Project mode (sage / inherited), live URLs, deploy hints. |
+| `{theme_root}/.claude/capabilities.md` | At session start and before any operation. Verified GitHub, SSH, WP-CLI, local, staging, and production boundary. |
+| `{theme_root}/.claude/architecture.md` | At session start. Latest architecture snapshot summary and read order. |
 | `{theme_root}/.claude/ci-cd.md` | Before any deploy. Per-project pattern, deploy commands, pre/post hooks. |
 | `{theme_root}/.claude/changelog/daily.md` | At session start. The last ~20 entries — what the last sessions touched. |
 
@@ -415,9 +438,9 @@ recovery.
 
 | What | Where | Why |
 |---|---|---|
-| The skill itself | `~/.claude/skills/norml-wp-developer/` | Claude Code auto-loads it. |
+| The skill itself | Runtime-specific skills directory | Claude Code, Codex, or Gemini CLI discovers the stable `norml-wp-developer` slug. |
 | **Per-project connection config** | **`~/.config/norml-wp-developer/projects/{slug}.json`** | Per-machine. Host, SSH alias, theme repo path, remote URL, deploy pattern. **No secrets.** |
-| **Per-project knowledge** | **`{theme_root}/.claude/`** | Lives in the git repo. Travels with the code. CLAUDE.md, ci-cd.md, changelog, architecture docs. |
+| **Per-project knowledge** | **`{theme_root}/.claude/`** | Lives in the GitHub repo. Travels with the code. CLAUDE.md, capabilities.md, architecture.md, ci-cd.md, changelog, architecture docs. |
 | SSH key | `~/.ssh/{key}` | Owned by the user; ssh-agent holds the passphrase. |
 | SSH passphrase | macOS Keychain (via `ssh-add --apple-use-keychain`) / Windows ssh-agent (DPAPI-backed) | OS-managed. Claude never reads it. |
 

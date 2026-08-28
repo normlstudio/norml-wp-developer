@@ -243,7 +243,7 @@ rsync -avz --delete \
 Every project carries a `ci-cd.md` in its `.claude/` folder declaring the
 pattern, environments, database + backup strategy, a permissions matrix, the
 exact deploy commands, pre/post-deploy hooks, and known gotchas. The setup
-script scaffolds it from `templates/ci-cd.template.md`, substituting values
+script scaffolds it from `templates/ci-cd-template.md`, substituting values
 from the per-project JSON. The developer edits it freely afterward — it's
 project knowledge, committed to git. See the template for the full shape.
 

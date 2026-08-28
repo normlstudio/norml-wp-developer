@@ -54,6 +54,15 @@ function Render-Template($tplName, $outPath) {
     '{{STAGING_THEME_PATH}}'  = (if ($cfg.staging) { $cfg.staging.theme_path } else { "" })
     '{{STAGING_WP_PATH}}'     = (if ($cfg.staging) { $cfg.staging.wp_path } else { "" })
     '{{TODAY}}'               = $today
+    '{{GENERATED_AT}}'        = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
+    '{{CLI_STATUS}}'          = 'Terminal filesystem + shell available'
+    '{{LOCAL_REPO_STATUS}}'   = (if (Test-Path (Join-Path $ThemeRoot '.git')) { 'Git repository detected' } else { 'BLOCKED — Git repository missing' })
+    '{{GITHUB_STATUS}}'       = 'Pending first architecture scan'
+    '{{SSH_STATUS}}'          = 'Pending first architecture scan'
+    '{{WPCLI_STATUS}}'        = 'Pending first architecture scan'
+    '{{STAGING_STATUS}}'      = (if ($cfg.staging) { "Configured at $($cfg.staging.url)" } else { 'Not configured' })
+    '{{BLOCKERS}}'            = '- First architecture scan pending. GitHub, SSH, and remote WP-CLI have not been verified yet.'
+    '{{ARCHITECTURE_SUMMARY}}'= 'First architecture scan pending. Run the bundled scraper after GitHub and SSH are connected.'
   }
   foreach ($k in $repl.Keys) {
     $content = $content.Replace($k, [string]$repl[$k])
@@ -63,13 +72,22 @@ function Render-Template($tplName, $outPath) {
 }
 
 if (-not (Test-Path ".claude\CLAUDE.md")) {
-  Render-Template "claude-md.template.md" ".claude\CLAUDE.md"
+  Render-Template "claude-md-template.md" ".claude\CLAUDE.md"
 }
 if (-not (Test-Path ".claude\ci-cd.md")) {
-  Render-Template "ci-cd.template.md" ".claude\ci-cd.md"
+  Render-Template "ci-cd-template.md" ".claude\ci-cd.md"
+}
+if (-not (Test-Path ".claude\capabilities.md")) {
+  Render-Template "capabilities-template.md" ".claude\capabilities.md"
+}
+if (-not (Test-Path ".claude\architecture.md")) {
+  Render-Template "architecture-template.md" ".claude\architecture.md"
+}
+if (-not (Test-Path ".claude\docs\README.md")) {
+  Render-Template "docs-readme-template.md" ".claude\docs\README.md"
 }
 if (-not (Test-Path ".claude\changelog\README.md")) {
-  Render-Template "changelog-readme.template.md" ".claude\changelog\README.md"
+  Render-Template "changelog-readme-template.md" ".claude\changelog\README.md"
 }
 
 # Scaffold the rolling changelog files

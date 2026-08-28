@@ -19,7 +19,7 @@ patterns.md          →  picks the deploy SHAPE for a project (staging or not, 
 ```
 
 A project's choices from all three are recorded in its own
-`{theme_root}/.claude/ci-cd.md` (scaffolded from `templates/ci-cd.template.md`),
+`{theme_root}/.claude/ci-cd.md` (scaffolded from `templates/ci-cd-template.md`),
 which every deploy reads first.
 
 ## The non-negotiable
