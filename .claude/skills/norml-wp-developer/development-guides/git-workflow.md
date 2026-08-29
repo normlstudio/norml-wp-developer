@@ -264,8 +264,8 @@ roll back to.
 
 ## Cross-references
 
-- `references/dev-conventions.md` → coding style + the 3-layer CSS
+- `development-guides/dev-conventions.md` → coding style + the 3-layer CSS
   model — every commit should honor those.
-- `references/ci-cd/patterns.md` → how the three deploy patterns
+- `development-guides/ci-cd/patterns.md` → how the three deploy patterns
   consume git state (branch push vs tag push vs ad-hoc rsync).
-- `references/safety-rules.md` → the secret-leak exposure protocol.
+- `development-guides/safety-rules.md` → the secret-leak exposure protocol.

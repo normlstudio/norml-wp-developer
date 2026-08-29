@@ -1,10 +1,18 @@
-# Changelog — norml-wp-developer (repository)
+# Changelog — norml-wordpress-copilot-advanced (repository)
 
 This file tracks **repository-level** changes — README, packaging, license,
 distribution. The **skill's own** version history is the source of truth for
 skill behavior: see
 [`.claude/skills/norml-wp-developer/changelog.md`](.claude/skills/norml-wp-developer/changelog.md)
-(currently **v1.2.0**).
+(currently **v1.2.1**).
+
+## Aug 29, 2026
+
+- Renamed the public GitHub repository from `norml-wp-developer` to
+  `norml-wordpress-copilot-advanced` so its source identity matches the product
+  name.
+- Updated all repository install commands and generated one-pager metadata. The
+  installed `norml-wp-developer` slug remains stable for backward compatibility.
 
 ## Aug 28, 2026
 
@@ -21,8 +29,8 @@ skill behavior: see
 ## Jun 22, 2026
 
 - README + repo changelog updated to reflect skill **v1.1.0** — a
-  reference-layer depth expansion (new `references/conventions/` and
-  `references/ci-cd/` folders + `references/qa-gates.md`). Setup, develop,
+  reference-layer depth expansion (new `development-guides/conventions/` and
+  `development-guides/ci-cd/` folders + `development-guides/qa-gates.md`). Setup, develop,
   and deploy behavior are unchanged; the new references are additive. See
   the [skill changelog](.claude/skills/norml-wp-developer/changelog.md)
   for the full breakdown.

@@ -1,5 +1,16 @@
 # changelog
 
+## [1.2.1] — Aug 29, 2026 — Max Tymoshyn
+
+Renamed the public repository to `norml-wordpress-copilot-advanced` so the
+source URL matches the product name while retaining `norml-wp-developer` as the
+installed skill and project-compatibility slug.
+
+Moved the generic `references/` folder to `development-guides/` and updated
+every package cross-link. Runtime capabilities, theme-local project records,
+configuration paths, credential handling, and existing installations are
+unchanged.
+
 ## [1.2.0] — Aug 28, 2026 — Max Tymoshyn
 
 Published the human-facing name **Norml WordPress Copilot Advanced** while keeping
@@ -35,7 +46,7 @@ ported from Norml's internal dev skills and genericized for any
 WordPress developer (zero Norml-ecosystem dependencies, no private repo
 references, no brand-locked class prefixes).
 
-**New `references/conventions/` folder** — the deep build conventions the
+**New `development-guides/conventions/` folder** — the deep build conventions the
 old single `dev-conventions.md` only summarized:
 
 - `sage-stack.md` — the Sage + Acorn + Blade + Tailwind v4 + Vite +
@@ -59,7 +70,7 @@ old single `dev-conventions.md` only summarized:
 the genuinely-global rules (Conventional Commits, don't-commit
 artifacts/secrets, ACF JSON sync caveat).
 
-**New `references/ci-cd/` folder** — replaces the single
+**New `development-guides/ci-cd/` folder** — replaces the single
 `ci-cd-patterns.md`:
 
 - `patterns.md` — the three deploy patterns (relocated; database +
@@ -73,7 +84,7 @@ artifacts/secrets, ACF JSON sync caveat).
   `host-automatic` / `manual-before-deploy` / `none-warned` tiers.
 - `README.md` — folder index.
 
-**New `references/qa-gates.md`** — the pre-merge / pre-deploy /
+**New `development-guides/qa-gates.md`** — the pre-merge / pre-deploy /
 post-deploy QA checkpoints, adapted to all three patterns (staging-based
 for `full-pipeline`, local-based pre-deploy for the prod-direct patterns;
 post-deploy always on the production URL). Smoke test + Core Web Vitals
@@ -152,7 +163,7 @@ onboarding.
 ├── onboarding.md               per-project setup (~30 min)
 ├── human.md                    narrative overview for the recipient
 ├── changelog.md                (this file)
-├── references/
+├── development-guides/
 │   ├── dev-conventions.md      Sage + Inherited conventions
 │   ├── git-workflow.md         GitHub Flow + Conventional Commits
 │   ├── ci-cd-patterns.md       The 3 patterns

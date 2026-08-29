@@ -89,7 +89,7 @@ safe to commit because secrets are stored elsewhere.
 | `SKILL.md` | CLI development boundary, project modes, onboarding gates, and delivery workflow. |
 | `onboarding.md` | Required GitHub, SSH, WP-CLI, scanner, and project-documentation sequence. |
 | `scripts/` | Cross-platform initialization, architecture scans, sync, SSH checks, and staged deployment. |
-| `references/` | Development conventions, Git workflow, QA, safety, and local WordPress guidance. |
+| `development-guides/` | Development conventions, Git workflow, QA, safety, and local WordPress guidance. |
 | `templates/` | Theme-local capabilities, architecture, CI/CD, changelog, docs, and workflow contracts. |
 | `install.md` | Supported CLI runtimes, prerequisites, first run, and credential rules. |
 
@@ -143,6 +143,15 @@ GitHub immediately.
 - **Norml WordPress Copilot Advanced** — CLI development and deployment; requires
   GitHub + SSH + WP-CLI; stores project docs in the theme repo.
 
+## What changed in 1.2.1
+
+- Renamed the public repository to `norml-wordpress-copilot-advanced` while
+  retaining the installed `norml-wp-developer` slug for compatibility.
+- Renamed the bundled source folder from `references/` to the descriptive
+  `development-guides/` path and updated its links.
+- Kept runtime behavior, theme-local project records, configuration paths, and
+  credential references unchanged.
+
 ## What changed in 1.2.0
 
 - Added the public Advanced product title while retaining the installed slug.
@@ -156,5 +165,5 @@ GitHub immediately.
 
 ---
 
-_Covers SKILL.md v1.2.0 | Last changelog entry: v1.2.0 | Generated: 2026-08-28. If
+_Covers SKILL.md v1.2.1 | Last changelog entry: v1.2.1 | Generated: 2026-08-29. If
 the skill behaves differently, trust `SKILL.md` and regenerate this guide._

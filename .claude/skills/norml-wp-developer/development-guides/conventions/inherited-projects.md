@@ -4,7 +4,7 @@ This document defines how to work inside a WordPress project you didn't scaffold
 
 **Read this file FIRST whenever you open a WordPress project you didn't build yourself.**
 
-The other files in this skill (`references/dev-conventions.md` Mode A, `references/conventions/css-architecture.md`, `references/conventions/acf-blocks.md`) describe how to build new themes from scratch. This file describes how to apply the core principles inside someone else's existing structure without rewriting the world.
+The other files in this skill (`development-guides/dev-conventions.md` Mode A, `development-guides/conventions/css-architecture.md`, `development-guides/conventions/acf-blocks.md`) describe how to build new themes from scratch. This file describes how to apply the core principles inside someone else's existing structure without rewriting the world.
 
 ---
 

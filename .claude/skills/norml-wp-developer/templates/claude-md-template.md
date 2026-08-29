@@ -33,13 +33,13 @@ Short version:
 
 - **`sage`** — Norml-authored, Roots Sage + Acorn + Blade + Tailwind v4
   + Vite + Alpine + ACF Pro. Strict architecture. See
-  `references/dev-conventions.md → Sage section` in the
+  `development-guides/dev-conventions.md → Sage section` in the
   `norml-wp-developer` skill folder.
 - **`inherited`** — non-Sage theme handed to us. Respect the existing
   architecture; apply framework-agnostic core principles
   (section/component/partial separation, ACF block registration,
   3-layer CSS) inside the existing theme. Never silently introduce a
-  new framework. See `references/dev-conventions.md → Inherited
+  new framework. See `development-guides/dev-conventions.md → Inherited
   section`.
 
 ## Connection details
@@ -100,7 +100,7 @@ when something architecturally significant changes.
 
 - `~/.claude/skills/norml-wp-developer/SKILL.md` — primary skill
   instructions
-- `~/.claude/skills/norml-wp-developer/references/` — dev conventions,
+- `~/.claude/skills/norml-wp-developer/development-guides/` — dev conventions,
   git workflow, CI/CD patterns, safety rules
 - `~/.claude/skills/norml-wp-developer/scripts/` — helpers (test-ssh,
   deploy-to-staging, deploy-to-prod, sync-from-prod, init-claude)

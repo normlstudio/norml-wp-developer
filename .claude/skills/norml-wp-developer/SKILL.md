@@ -1,6 +1,6 @@
 ---
 name: norml-wp-developer
-version: 1.2.0
+version: 1.2.1
 requires_onboarding: true
 description: >
   Norml WordPress Copilot Advanced: the CLI-only WordPress development
@@ -130,7 +130,7 @@ Done once per project. Outputs:
   `.bitbucket-pipelines.yml`) scaffolded.
 - Required first-time read-only architecture scrape via WP-CLI over SSH.
 
-See `references/wp-local-setup.md` for the local environment details and
+See `development-guides/wp-local-setup.md` for the local environment details and
 `onboarding.md` for the step-by-step.
 
 ### 2. Develop (the everyday workflow)
@@ -139,19 +139,19 @@ After setup, building is the bulk of the work. Rules vary by project mode:
 
 - **New / Sage-based project (Norml-authored):** Roots Sage + Acorn +
   Blade + Tailwind v4 + Vite + Alpine.js + ACF Pro. Read
-  `references/dev-conventions.md` → Mode A, which routes to
+  `development-guides/dev-conventions.md` → Mode A, which routes to
   `conventions/sage-stack.md`, `component-system.md`,
   `css-architecture.md`, and `acf-blocks.md`.
 - **Inherited project (non-Sage, handed to us):** respect the existing
   architecture. Apply the framework-agnostic core principles
   (section/component/partial separation, ACF block registration,
   block previews, 3-layer CSS model) inside the existing theme.
-  Read `references/dev-conventions.md` → Mode B, which routes to
+  Read `development-guides/dev-conventions.md` → Mode B, which routes to
   `conventions/inherited-projects.md` (+ `css-architecture.md` and
   `acf-blocks.md` for the cross-cutting specifics).
 
 Git workflow + commit conventions are the same for both:
-GitHub Flow + Conventional Commits. See `references/git-workflow.md`.
+GitHub Flow + Conventional Commits. See `development-guides/git-workflow.md`.
 
 ### 3. Deploy (the gated, backup-required workflow)
 
@@ -169,11 +169,11 @@ The deploy phase runs:
 
 Every deploy gates on the **backup acknowledgement prompt** described in
 the HARD WARNING block above. Without acknowledgement, the deploy
-aborts. See `references/ci-cd/patterns.md` for the three supported
-patterns and their command sequences, `references/qa-gates.md` for the
+aborts. See `development-guides/ci-cd/patterns.md` for the three supported
+patterns and their command sequences, `development-guides/qa-gates.md` for the
 pre-deploy and post-deploy QA checkpoints (staging-based for
 `full-pipeline`, local-based for the prod-direct patterns), and
-`references/ci-cd/backup-strategies.md` for the per-provider backup +
+`development-guides/ci-cd/backup-strategies.md` for the per-provider backup +
 restore detail behind the acknowledgement.
 
 ## Pre-flight (every session, before the first dev/deploy operation)
@@ -371,7 +371,7 @@ explicitly types that phrase.
   theme's floor.
 - **Git conflicts** → don't auto-resolve. Show the conflicting files,
   let the user pick the side. Conventional Commit rules in
-  `references/git-workflow.md`.
+  `development-guides/git-workflow.md`.
 - **Build failures** → show the full Vite / Composer / NPM error, stop,
   do not deploy with a failing build.
 - **Deploy failures mid-flight** → stop immediately. Tell the user the
@@ -385,19 +385,19 @@ recovery.
 
 | File | When to read |
 |---|---|
-| `references/dev-conventions.md` | At the start of any session that touches theme code. The **router** — routes to the right `conventions/` files by project mode, plus the global rules (Conventional Commits, don't-commit artifacts/secrets, ACF JSON sync caveat). |
-| `references/conventions/sage-stack.md` | Sage / new projects, before building. The Sage + Acorn + Blade + Tailwind v4 + Vite + Alpine + ACF Pro foundation. |
-| `references/conventions/component-system.md` | Before building a section / component / block in a Sage project. Anatomy + core component catalog + the Alpine pattern + layout. |
-| `references/conventions/css-architecture.md` | Before writing ANY CSS, **either mode**. The 3-layer model + the forbidden per-page-stylesheet rule. |
-| `references/conventions/acf-blocks.md` | Before registering an ACF block or its preview, **either mode**. Registration + previews + ACF JSON sync. |
-| `references/conventions/inherited-projects.md` | FIRST, whenever you open a non-Sage / inherited theme. Respect-existing decision flow + framework-agnostic principles. |
-| `references/git-workflow.md` | Before any `git commit`, `git push`, branch creation, or PR. GitHub Flow + Conventional Commits. |
-| `references/ci-cd/patterns.md` | Before any deploy or any CI/CD configuration task. The three supported patterns and the per-project `ci-cd.md` contract. |
-| `references/ci-cd/database-strategies.md` | When content / the database moves (or must not move) between environments. |
-| `references/ci-cd/backup-strategies.md` | Before any production write — backup provider, verification, restore runbook, acknowledgement tier. |
-| `references/qa-gates.md` | Before merging, before deploying, and right after deploying. The pre-merge / pre-deploy / post-deploy checkpoints. |
-| `references/safety-rules.md` | At session start. The full Safe / Confirm / Confirm+backup classification with examples. |
-| `references/wp-local-setup.md` | During onboarding, or if the local environment is unclear. WP Local default, DDEV / Lando / Valet / Local Lightning as alternates. |
+| `development-guides/dev-conventions.md` | At the start of any session that touches theme code. The **router** — routes to the right `conventions/` files by project mode, plus the global rules (Conventional Commits, don't-commit artifacts/secrets, ACF JSON sync caveat). |
+| `development-guides/conventions/sage-stack.md` | Sage / new projects, before building. The Sage + Acorn + Blade + Tailwind v4 + Vite + Alpine + ACF Pro foundation. |
+| `development-guides/conventions/component-system.md` | Before building a section / component / block in a Sage project. Anatomy + core component catalog + the Alpine pattern + layout. |
+| `development-guides/conventions/css-architecture.md` | Before writing ANY CSS, **either mode**. The 3-layer model + the forbidden per-page-stylesheet rule. |
+| `development-guides/conventions/acf-blocks.md` | Before registering an ACF block or its preview, **either mode**. Registration + previews + ACF JSON sync. |
+| `development-guides/conventions/inherited-projects.md` | FIRST, whenever you open a non-Sage / inherited theme. Respect-existing decision flow + framework-agnostic principles. |
+| `development-guides/git-workflow.md` | Before any `git commit`, `git push`, branch creation, or PR. GitHub Flow + Conventional Commits. |
+| `development-guides/ci-cd/patterns.md` | Before any deploy or any CI/CD configuration task. The three supported patterns and the per-project `ci-cd.md` contract. |
+| `development-guides/ci-cd/database-strategies.md` | When content / the database moves (or must not move) between environments. |
+| `development-guides/ci-cd/backup-strategies.md` | Before any production write — backup provider, verification, restore runbook, acknowledgement tier. |
+| `development-guides/qa-gates.md` | Before merging, before deploying, and right after deploying. The pre-merge / pre-deploy / post-deploy checkpoints. |
+| `development-guides/safety-rules.md` | At session start. The full Safe / Confirm / Confirm+backup classification with examples. |
+| `development-guides/wp-local-setup.md` | During onboarding, or if the local environment is unclear. WP Local default, DDEV / Lando / Valet / Local Lightning as alternates. |
 | `{theme_root}/.claude/CLAUDE.md` | At session start. Project mode (sage / inherited), live URLs, deploy hints. |
 | `{theme_root}/.claude/capabilities.md` | At session start and before any operation. Verified GitHub, SSH, WP-CLI, local, staging, and production boundary. |
 | `{theme_root}/.claude/architecture.md` | At session start. Latest architecture snapshot summary and read order. |

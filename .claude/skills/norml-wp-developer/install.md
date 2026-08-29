@@ -3,6 +3,10 @@
 Public product name: **Norml WordPress Copilot Advanced**. Installed skill:
 `norml-wp-developer`.
 
+Repository: `normlstudio/norml-wordpress-copilot-advanced`. The installed slug
+remains `norml-wp-developer` for compatibility with existing installations and
+project state.
+
 ## CLI only
 
 Install this skill in Claude Code, Codex, or Gemini CLI. It requires local
@@ -14,19 +18,19 @@ Desktop / Cowork; use Norml WordPress Copilot (`norml-wp-manager`) there.
 ### Claude Code
 
 ```bash
-npx skills@latest add normlstudio/norml-wp-developer --skill=norml-wp-developer -g -a claude-code
+npx skills@latest add normlstudio/norml-wordpress-copilot-advanced --skill=norml-wp-developer -g -a claude-code
 ```
 
 ### Codex
 
 ```bash
-npx skills@latest add normlstudio/norml-wp-developer --skill=norml-wp-developer -g -a codex
+npx skills@latest add normlstudio/norml-wordpress-copilot-advanced --skill=norml-wp-developer -g -a codex
 ```
 
 ### Gemini CLI
 
 ```bash
-npx skills@latest add normlstudio/norml-wp-developer --skill=norml-wp-developer -g -a gemini-cli
+npx skills@latest add normlstudio/norml-wordpress-copilot-advanced --skill=norml-wp-developer -g -a gemini-cli
 ```
 
 Restart the runtime if it does not discover the skill immediately.

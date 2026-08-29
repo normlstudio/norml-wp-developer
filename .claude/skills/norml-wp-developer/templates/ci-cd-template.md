@@ -175,5 +175,5 @@ add them once.
 
 - `.claude/CLAUDE.md` — project overview
 - `.claude/changelog/daily.md` — recent work
-- `~/.claude/skills/norml-wp-developer/references/ci-cd/patterns.md` —
+- `~/.claude/skills/norml-wp-developer/development-guides/ci-cd/patterns.md` —
   full pattern details

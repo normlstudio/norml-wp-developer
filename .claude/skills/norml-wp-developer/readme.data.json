@@ -1,8 +1,8 @@
 {
   "skill": "norml-wp-developer",
   "title": "Norml WordPress Copilot Advanced",
-  "version": "1.2.0",
-  "repo": "norml-wp-developer",
+  "version": "1.2.1",
+  "repo": "norml-wordpress-copilot-advanced",
   "audience": "WordPress developers working in CLI runtimes",
   "actsOn": "a local theme repo plus its GitHub and WordPress server",
   "badge": "CLI · GitHub · SSH · WP-CLI",
@@ -60,7 +60,7 @@
       {"path": "SKILL.md", "role": "CLI development boundary, project modes, onboarding gates, and delivery workflow."},
       {"path": "onboarding.md", "role": "Required GitHub, SSH, WP-CLI, scanner, and project-documentation sequence."},
       {"path": "scripts/", "role": "Cross-platform initialization, architecture scans, sync, SSH checks, and staged deployment."},
-      {"path": "references/", "role": "Development conventions, Git workflow, QA, safety, and local WordPress guidance."},
+      {"path": "development-guides/", "role": "Development conventions, Git workflow, QA, safety, and local WordPress guidance."},
       {"path": "templates/", "role": "Theme-local capabilities, architecture, CI/CD, changelog, docs, and workflow contracts."},
       {"path": "install.md", "role": "Supported CLI runtimes, prerequisites, first run, and credential rules."}
     ],
@@ -72,7 +72,7 @@
       {"node": "norml-wp-manager", "dir": "in", "label": "content boundary"}
     ]
   },
-  "covers": "1.2.0",
-  "generated": "2026-08-28",
+  "covers": "1.2.1",
+  "generated": "2026-08-29",
   "hasHumanMd": true
 }

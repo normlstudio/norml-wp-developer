@@ -187,6 +187,6 @@ environment has dummy / sandbox credentials where applicable.
 
 - `onboarding.md` — uses this reference during step 4 (local env
   detection).
-- `references/ci-cd/patterns.md` — pulls + pushes between environments
+- `development-guides/ci-cd/patterns.md` — pulls + pushes between environments
   are the deploy pattern's responsibility.
 - `scripts/sync-from-prod.sh` — the DB + uploads pull flow.

@@ -3,6 +3,10 @@
 Public product name: **Norml WordPress Copilot Advanced**. Installed skill:
 `norml-wp-developer`.
 
+Repository: [`normlstudio/norml-wordpress-copilot-advanced`](https://github.com/normlstudio/norml-wordpress-copilot-advanced).
+The installed slug remains `norml-wp-developer` so existing installations,
+project configuration, and generated documentation continue to work.
+
 The CLI-only Norml WordPress Copilot for theme development, GitHub, SSH, WP-CLI,
 environment sync, CI/CD, staging, and production deployment. It connects a project
 once, analyzes the live WordPress application plus the local theme, and stores the
@@ -39,19 +43,19 @@ and Gemini CLI. It does not run in Claude Desktop / Cowork.
 Claude Code:
 
 ```bash
-npx skills@latest add normlstudio/norml-wp-developer --skill=norml-wp-developer -g -a claude-code
+npx skills@latest add normlstudio/norml-wordpress-copilot-advanced --skill=norml-wp-developer -g -a claude-code
 ```
 
 Codex:
 
 ```bash
-npx skills@latest add normlstudio/norml-wp-developer --skill=norml-wp-developer -g -a codex
+npx skills@latest add normlstudio/norml-wordpress-copilot-advanced --skill=norml-wp-developer -g -a codex
 ```
 
 Gemini CLI:
 
 ```bash
-npx skills@latest add normlstudio/norml-wp-developer --skill=norml-wp-developer -g -a gemini-cli
+npx skills@latest add normlstudio/norml-wordpress-copilot-advanced --skill=norml-wp-developer -g -a gemini-cli
 ```
 
 Then open the CLI in a theme root and say:
@@ -109,7 +113,7 @@ verified. Run the scan again after infrastructure or architecture changes.
 - [Visual one-pager](.claude/skills/norml-wp-developer/readme.html)
 - [Installation](.claude/skills/norml-wp-developer/install.md)
 - [Onboarding](.claude/skills/norml-wp-developer/onboarding.md)
-- [Changelog](.claude/skills/norml-wp-developer/changelog.md) — current version 1.2.0
+- [Changelog](.claude/skills/norml-wp-developer/changelog.md) — current version 1.2.1
 
 ## License
 
