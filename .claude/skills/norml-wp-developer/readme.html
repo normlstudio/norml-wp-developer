@@ -57,11 +57,12 @@
   .step .n{font:600 10.5px/1 var(--mono); color:var(--faint); letter-spacing:.05em}
   .step .t{margin-top:7px; font-weight:600; font-size:14px; color:var(--ink)}
   .step .d{margin-top:3px; font-size:12px; color:var(--muted); line-height:1.4}
-  .step:not(:last-child)::after{content:"→"; position:absolute; right:-13px; top:50%;
-    transform:translateY(-50%); font:500 14px/1 var(--mono); color:var(--line-2); z-index:2}
+  .step:not(:last-child)::after{content:""; position:absolute; right:-9px; top:50%; width:9px;
+    border-top:1px solid var(--line-2); z-index:2}
   @media(max-width:900px){.step{flex-basis:calc(50% - 4px); min-width:240px}}
   @media(max-width:560px){.step{flex:1 1 100%}
-    .step:not(:last-child)::after{content:"↓"; right:50%; top:auto; bottom:-13px; transform:translateX(50%)}}
+    .step:not(:last-child)::after{right:auto; left:24px; top:auto; bottom:-9px; width:0; height:9px;
+      border-top:0; border-left:1px solid var(--line-2)}}
   .cmds{display:grid; grid-template-columns:1fr 1fr; gap:8px}
   @media(max-width:560px){.cmds{grid-template-columns:1fr}}
   .cmd{display:flex; align-items:center; gap:10px; padding:11px 13px; background:var(--bg);
@@ -83,6 +84,20 @@
     white-space:nowrap; text-transform:uppercase; flex:none}
   .pill.ok{color:#3f6212; background:rgba(197,240,75,.32); border:1px solid var(--lime-deep)}
   .pill.dep{color:var(--muted); background:var(--bg); border:1px solid var(--line-2)}
+  .architecture{border-top:1px solid var(--line-2); font-family:var(--mono)}
+  .architecture-root{padding:11px 12px; color:var(--ink); background:var(--bg); border-bottom:1px solid var(--line);
+    font-size:12.5px; font-weight:700; overflow-wrap:anywhere}
+  .architecture-items{display:flex; flex-direction:column}
+  .architecture-item{display:grid; grid-template-columns:minmax(150px,.8fr) minmax(0,1.6fr); gap:18px;
+    align-items:baseline; padding:11px 12px; border-bottom:1px solid var(--line)}
+  .architecture-item code{font:600 12.5px/1.4 var(--mono); color:var(--ink); overflow-wrap:anywhere}
+  .architecture-item span{font:500 12.5px/1.5 var(--sans); color:var(--muted)}
+  .architecture-item span b{color:var(--ink-2); font-weight:600}
+  .architecture-note{margin-top:11px; color:var(--muted); font-size:12.5px; line-height:1.5; max-width:64ch}
+  .architecture-note b{color:var(--ink-2); font-weight:600}
+  @media(max-width:560px){
+    .architecture-item{grid-template-columns:1fr; gap:3px}
+  }
   .limits{display:flex; flex-direction:column; gap:10px}
   .limit{display:flex; gap:11px; font-size:14px; line-height:1.5; color:var(--ink-2); max-width:66ch}
   .limit::before{content:"×"; color:var(--faint); font:600 13px/1.45 var(--mono); flex:none}
@@ -130,6 +145,7 @@
   <section><div class="lbl">The problem</div><p class="prose">WordPress development context is often scattered across a laptop, GitHub, hosting notes, SSH config, and one developer's memory.</p><p class="prose">Advanced verifies those connections and stores the capability boundary, architecture, deploy contract, and work history inside the theme repo.</p></section>
   <section><div class="lbl">CLI only</div><div class="note"><span>Run it in <b>Claude Code, Codex, or Gemini CLI</b>. It requires GitHub, SSH, remote WP-CLI, and a local theme repo; it does not run in Desktop / Cowork.</span></div></section>
   <section><div class="lbl">What it does</div><p class="sublede">The first scan proves the operating surface before development begins.</p><div class="caps"><div class="cap"><div class="ch"><span class="ct">Connect the project</span><span class="pill ok">required</span></div><div class="cd">Verifies local Git, GitHub origin, production SSH, remote WP-CLI, and optional staging.</div></div><div class="cap"><div class="ch"><span class="ct">Map architecture</span><span class="pill ok">generated docs</span></div><div class="cd">Combines read-only live WordPress evidence with a bounded local theme inventory.</div></div><div class="cap"><div class="ch"><span class="ct">Develop themes</span><span class="pill ok">Sage or inherited</span></div><div class="cd">Builds within the recorded stack and project mode.</div></div><div class="cap"><div class="ch"><span class="ct">Ship through GitHub</span><span class="pill ok">gated</span></div><div class="cd">Branches, commits, CI/CD, staging QA, and production promotion.</div></div><div class="cap"><div class="ch"><span class="ct">Run in Desktop</span><span class="pill dep">not supported</span></div><div class="cd">Desktop / Cowork uses the REST/API Norml WordPress Copilot instead.</div></div></div></section>
+  <section><div class="lbl">Inside the skill</div><p class="sublede">The installed package keeps the CLI operating boundary, onboarding gates, cross-platform project tools, development guidance, generated contracts, and install path explicit.</p><div class="architecture"><div class="architecture-root">norml-wp-developer/</div><div class="architecture-items"><div class="architecture-item"><code>SKILL.md</code><span>CLI development boundary, project modes, onboarding gates, and delivery workflow.</span></div><div class="architecture-item"><code>onboarding.md</code><span>Required GitHub, SSH, WP-CLI, scanner, and project-documentation sequence.</span></div><div class="architecture-item"><code>scripts/</code><span>Cross-platform initialization, architecture scans, sync, SSH checks, and staged deployment.</span></div><div class="architecture-item"><code>references/</code><span>Development conventions, Git workflow, QA, safety, and local WordPress guidance.</span></div><div class="architecture-item"><code>templates/</code><span>Theme-local capabilities, architecture, CI/CD, changelog, docs, and workflow contracts.</span></div><div class="architecture-item"><code>install.md</code><span>Supported CLI runtimes, prerequisites, first run, and credential rules.</span></div></div></div><p class="architecture-note">This installed source stays separate from the committed theme-local .claude/ project record it generates.</p></section>
   <section><div class="lbl">How it flows</div><div class="flow"><div class="step"><div class="n">01</div><div class="t">Install</div><div class="d">Add the skill to Claude Code, Codex, or Gemini CLI.</div></div><div class="step"><div class="n">02</div><div class="t">Connect</div><div class="d">Verify GitHub, production SSH, remote WP-CLI, and optional staging.</div></div><div class="step"><div class="n">03</div><div class="t">Analyze</div><div class="d">Generate capabilities.md and the theme-local architecture dossier.</div></div><div class="step"><div class="n">04</div><div class="t">Develop</div><div class="d">Work locally within the detected Sage or inherited architecture.</div></div><div class="step"><div class="n">05</div><div class="t">Ship</div><div class="d">Use GitHub, QA, confirmation, and backup-gated deployment.</div></div></div></section>
   <section><div class="lbl">Say this to Claude</div><div class="cmds"><div class="cmd"><span class="q">&ldquo;</span><span class="x">set up this project for Norml WordPress Copilot Advanced</span></div><div class="cmd"><span class="q">&ldquo;</span><span class="x">explain this architecture and capabilities.md</span></div><div class="cmd"><span class="q">&ldquo;</span><span class="x">add an ACF block following this theme's existing structure</span></div><div class="cmd"><span class="q">&ldquo;</span><span class="x">rescan the WordPress and theme architecture</span></div><div class="cmd"><span class="q">&ldquo;</span><span class="x">ship this branch to staging and run the QA gate</span></div><div class="cmd"><span class="q">&ldquo;</span><span class="x">promote the verified staging release to production</span></div></div></section>
   <section><div class="lbl">Boundary</div><div class="limits"><div class="limit"><span>No Claude Desktop / Cowork runtime; terminal and local filesystem are required.</span></div><div class="limit"><span>No completed onboarding without a readable GitHub origin, production SSH, and remote WP-CLI.</span></div><div class="limit"><span>No secret in chat, project config, .claude/, Git, or workflow source.</span></div><div class="limit"><span>No production write without confirmation and verified backup acknowledgement.</span></div></div><p class="sublede" style="margin:16px 0 0">For REST/API content work without server access, use Norml WordPress Copilot.</p></section>

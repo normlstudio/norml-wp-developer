@@ -22,6 +22,10 @@ multi-provider remote path from the public onboarding flow. Removed the obsolete
 standalone `install.html`; the maintained install source is `install.md`, while
 `readme.html` remains the visual one-pager.
 
+The paired human guides now include a representative installed-package architecture
+with exact path-to-role explanations, kept separate from the generated theme-local
+project record.
+
 ## [1.1.0] — Jun 22, 2026 — Max Tymoshyn
 
 Depth expansion of the reference layer. **No behavior change** to setup,

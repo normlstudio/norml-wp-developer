@@ -15,6 +15,8 @@ skill behavior: see
 - Made GitHub, production SSH, remote WP-CLI, and the first architecture scan
   mandatory onboarding gates. Updated install, onboarding, and public docs for the
   CLI-only product boundary.
+- Added exact installed-package path/role documentation to the deep guide and
+  generated one-pager, explicitly separated from the theme-local project output.
 
 ## Jun 22, 2026
 

@@ -52,6 +52,20 @@
     ],
     "note": "For REST/API content work without server access, use Norml WordPress Copilot."
   },
+  "architecture": {
+    "label": "Inside the skill",
+    "lede": "The installed package keeps the CLI operating boundary, onboarding gates, cross-platform project tools, development guidance, generated contracts, and install path explicit.",
+    "root": "norml-wp-developer/",
+    "items": [
+      {"path": "SKILL.md", "role": "CLI development boundary, project modes, onboarding gates, and delivery workflow."},
+      {"path": "onboarding.md", "role": "Required GitHub, SSH, WP-CLI, scanner, and project-documentation sequence."},
+      {"path": "scripts/", "role": "Cross-platform initialization, architecture scans, sync, SSH checks, and staged deployment."},
+      {"path": "references/", "role": "Development conventions, Git workflow, QA, safety, and local WordPress guidance."},
+      {"path": "templates/", "role": "Theme-local capabilities, architecture, CI/CD, changelog, docs, and workflow contracts."},
+      {"path": "install.md", "role": "Supported CLI runtimes, prerequisites, first run, and credential rules."}
+    ],
+    "note": "This installed source stays separate from the committed theme-local .claude/ project record it generates."
+  },
   "graph": {
     "center": "norml-wp-developer",
     "edges": [

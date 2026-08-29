@@ -82,6 +82,21 @@ Generated files can be replaced by a rescan. Durable decisions belong in
 `CLAUDE.md`; durable history belongs in `changelog/`. Everything in `.claude/` is
 safe to commit because secrets are stored elsewhere.
 
+## Inside the skill
+
+| Path | Role |
+|---|---|
+| `SKILL.md` | CLI development boundary, project modes, onboarding gates, and delivery workflow. |
+| `onboarding.md` | Required GitHub, SSH, WP-CLI, scanner, and project-documentation sequence. |
+| `scripts/` | Cross-platform initialization, architecture scans, sync, SSH checks, and staged deployment. |
+| `references/` | Development conventions, Git workflow, QA, safety, and local WordPress guidance. |
+| `templates/` | Theme-local capabilities, architecture, CI/CD, changelog, docs, and workflow contracts. |
+| `install.md` | Supported CLI runtimes, prerequisites, first run, and credential rules. |
+
+This is the installed `norml-wp-developer/` source. It stays separate from the
+theme-local `.claude/` project record above, which Advanced generates and commits
+with the connected theme.
+
 ## Say this to the Copilot
 
 | Need | Example request |
@@ -136,6 +151,8 @@ GitHub immediately.
 - Added real macOS/Linux and Windows read-only architecture scanners.
 - Made the first GitHub + SSH + WP-CLI verification and architecture scan required
   during onboarding.
+- Added exact installed-package path/role documentation, kept separate from the
+  generated theme-local project record.
 
 ---
 
